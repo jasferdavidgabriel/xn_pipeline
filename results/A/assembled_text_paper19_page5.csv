@@ -1,0 +1,10 @@
+paper_id,page,compound,r_text,assembled_smiles,scaffold_crop,reversed,status
+19,5,10e,CH=CH,CCCS(=O)(=O)Nc1ccc(F)c(C=Cc2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,19_p5_001,True,assembled
+19,5,10a,CH2,CCCS(=O)(=O)Nc1ccc(F)c(Cc2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,19_p5_001,True,assembled
+19,5,10f,(CO)-(CO),CCCS(=O)(=O)Nc1ccc(F)c(C(=O)C(=O)c2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,19_p5_001,True,assembled
+19,5,10b,S,CCCS(=O)(=O)Nc1ccc(F)c(Sc2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,19_p5_001,True,assembled
+19,5,10g,(COH)-(COH),CCCS(=O)(=O)Nc1ccc(F)c(C(O)C(O)c2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,19_p5_001,True,assembled
+19,5,10c,SO,CCCS(=O)(=O)Nc1ccc(F)c(S(=O)c2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,19_p5_001,True,assembled
+19,5,10h,CONH,CCCS(=O)(=O)Nc1ccc(F)c(NC(=O)c2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,19_p5_001,True,assembled
+19,5,10d,SO2,CCCS(=O)(=O)Nc1ccc(F)c(S(=O)(=O)c2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,19_p5_001,True,assembled
+19,5,10i,NHCO,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)Nc2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,19_p5_001,True,assembled

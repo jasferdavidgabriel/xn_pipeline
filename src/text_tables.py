@@ -52,6 +52,21 @@ RING_ATOMS = {
     "-C(Cl)=": "c(Cl)", "-C(CN)=": "c(C#N)",
 }
 
+# Linkers that join two parts of the scaffold, written as units in the drawing's reading order.
+# Reversing the list gives the same linker read from the other side.
+LINKERS = {
+    "CO": ["C(=O)"],
+    "CH2": ["C"],
+    "S": ["S"],
+    "SO": ["S(=O)"],
+    "SO2": ["S(=O)(=O)"],
+    "CH=CH": ["C=C"],                    # E/Z not specified in the table
+    "(CO)-(CO)": ["C(=O)", "C(=O)"],
+    "(COH)-(COH)": ["C(O)", "C(O)"],     # stereocenters not specified in the table
+    "CONH": ["C(=O)", "N"],
+    "NHCO": ["N", "C(=O)"],
+}
+
 def ring_dummy_isotopes(smiles):
     """Slot numbers of the wildcards that sit inside a ring (variable ring atoms)."""
     mol = Chem.MolFromSmiles(smiles)
@@ -192,6 +207,39 @@ def assemble_multi_slot(results_dir, pdf_dir, paper_id, page, scaffold_crop, id_
     print(f"Read {len(out)} rows; assembled {(out.status == 'assembled').sum()} -> {path}")
     return out
 
+def assemble_linker_table(results_dir, pdf_dir, paper_id, page, scaffold_crop, id_pattern, reverse):
+    """Insert a two point linker where the scaffold has a single wildcard between two parts.
+
+    reverse=True when the SMILES string meets the linker from the opposite side of the drawing.
+    """
+    results_dir = Path(results_dir)
+    validated = pd.read_csv(results_dir / "validated_predictions.csv", dtype={"paper_id": str})
+    scaffold = validated.loc[validated.crop_id == scaffold_crop, "canonical_smiles"].iloc[0]
+    if scaffold.count("*") != 1:
+        raise ValueError("Linker scaffold must contain exactly one wildcard")
+    table = read_text_table(Path(pdf_dir) / f"{paper_id}.pdf", page, id_pattern, n_parts=1)
+
+    records = []
+    for r in table.itertuples():
+        units = LINKERS.get(r.r_text)
+        smiles, status = None, "unmapped"
+        if units:
+            linker = "".join(reversed(units) if reverse else units)
+            mol = Chem.MolFromSmiles(scaffold.replace("*", linker, 1))
+            if mol is not None:
+                smiles, status = Chem.MolToSmiles(mol), "assembled"
+            else:
+                status = "invalid after insertion"
+        records.append({"paper_id": str(paper_id), "page": page, "compound": r.compound,
+                        "r_text": r.r_text, "assembled_smiles": smiles,
+                        "scaffold_crop": scaffold_crop, "reversed": reverse, "status": status})
+
+    out = pd.DataFrame(records)
+    path = results_dir / f"assembled_text_paper{paper_id}_page{page}.csv"
+    out.to_csv(path, index=False)
+    print(f"Read {len(out)} rows; assembled {(out.status == 'assembled').sum()} -> {path}")
+    return out
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Assemble molecules from a text R-group table.")
     parser.add_argument("--results", default="results/A")
@@ -201,9 +249,14 @@ if __name__ == "__main__":
     parser.add_argument("--scaffold-crop", default="19_p6_001")
     parser.add_argument("--id-pattern", default=r"^(1|12[a-z])$")
     parser.add_argument("--columns", help="Comma separated mapping per text column, e.g. ring,3,2,4,5")
+    parser.add_argument("--linker", choices=["forward", "reverse"],
+                        help="Treat R as a two point linker, inserted in drawing order or reversed")
     args = parser.parse_args()
     cfg = yaml.safe_load(open(args.config))
-    if args.columns:
+    if args.linker:
+        assemble_linker_table(args.results, cfg["data"]["pdf_dir"], args.paper, args.page,
+                              args.scaffold_crop, args.id_pattern, args.linker == "reverse")
+    elif args.columns:
         assemble_multi_slot(args.results, cfg["data"]["pdf_dir"], args.paper, args.page,
                             args.scaffold_crop, args.id_pattern, args.columns.split(","))
     else:
