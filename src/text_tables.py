@@ -12,13 +12,14 @@ import pymupdf
 import yaml
 from rdkit import Chem, RDLogger
 
-from src.assemble import with_map_numbers
+from src.assemble import assemble_row, with_map_numbers
 
 RDLogger.DisableLog("rdApp.*")
 
 # Text as written in the tables -> SMILES fragment with one attachment point (*).
 # Every entry is plain chemistry that can be checked by eye.
 SUBSTITUENTS = {
+    "-F": "*F",
     "-H": "*[H]",
     "-CH3": "*C",
     "-CH2-CH3": "*CC",
@@ -43,7 +44,8 @@ SUBSTITUENTS = {
 AMBIGUOUS = {"-ethylphenyl"}  # text with more than one reasonable reading; reviewed by hand
 
 DASHES = dict.fromkeys(map(ord, "\u2010\u2011\u2012\u2013\u2014\u2212"), "-")
-NUMBER = re.compile(r"^[<>]?[\d.,]+$")
+NUMBER = re.compile(r"^([<>]?[\d.,]+|N/D\w*)$")   # numbers, or N/D with an optional footnote letter
+RING_ATOMS = {"CH": "C", "N": "N"}   # text in "A"-type columns -> element for a variable ring atom
 
 
 def normalize(text):
@@ -51,16 +53,27 @@ def normalize(text):
     return text.translate(DASHES).replace(" ", "")
 
 
-def read_text_table(pdf_path, page_no, id_pattern, values_per_row=2, y_tol=3.0):
-    """Return rows of (compound, r_text) from a text table, handling side by side halves."""
+def read_text_table(pdf_path, page_no, id_pattern, values_per_row=2, y_tol=3.0, n_parts=None):
+    """Return rows of (compound, r_text, parts) from a text table, handling side by side halves.
+
+    n_parts, if given, is the exact number of text columns a row must have, which keeps
+    stray sentences in the body text from being read as table rows.
+    """
     words = pymupdf.open(pdf_path)[page_no - 1].get_text("words")
-    lines = {}
-    for x0, y0, x1, y1, w, *_ in words:
-        key = round(((y0 + y1) / 2) / y_tol)        # words on the same visual line share a key
-        lines.setdefault(key, []).append((x0, w))
+    # Group words into visual lines: sort by vertical center, start a new line at a gap > y_tol
+    entries = sorted(((y0 + y1) / 2, x0, w) for x0, y0, x1, y1, w, *_ in words)
+    lines, current, last_y = [], [], None
+    for y, x, w in entries:
+        if last_y is not None and y - last_y > y_tol:
+            lines.append(current)
+            current = []
+        current.append((x, w))
+        last_y = y
+    if current:
+        lines.append(current)
 
     id_re, rows = re.compile(id_pattern), []
-    for key, items in sorted(lines.items()):
+    for items in lines:
         tokens = [normalize(w) for _, w in sorted(items)]
         i = 0
         while i < len(tokens):
@@ -72,11 +85,10 @@ def read_text_table(pdf_path, page_no, id_pattern, values_per_row=2, y_tol=3.0):
                 r_parts.append(tokens[i])
                 i += 1
             values = tokens[i:i + values_per_row]
-            if r_parts and len(values) == values_per_row:   # a real table row: id, R, then numbers
-                rows.append({"compound": compound, "r_text": "".join(r_parts)})
+            if r_parts and len(values) == values_per_row and (n_parts is None or len(r_parts) == n_parts):
+                rows.append({"compound": compound, "r_text": "".join(r_parts), "parts": "|".join(r_parts)})
             i += values_per_row
     return pd.DataFrame(rows)
-
 
 def attach_single(scaffold_smiles, fragment_smiles):
     """Join a one-slot scaffold and a one-slot fragment at their attachment points."""
@@ -119,6 +131,47 @@ def assemble_text_table(results_dir, pdf_dir, paper_id, page, scaffold_crop, id_
         print("Unmapped R text (add to SUBSTITUENTS if correct):", unmapped.r_text.tolist())
     return out
 
+def assemble_multi_slot(results_dir, pdf_dir, paper_id, page, scaffold_crop, id_pattern, columns):
+    """Assemble rows with several text columns.
+
+    columns has one entry per text column: "ring" for a variable ring atom (CH or N),
+    or the scaffold slot number that column fills. The mapping must be checked per table,
+    because the scaffold's slot numbers need not match the table's R labels.
+    """
+    results_dir = Path(results_dir)
+    validated = pd.read_csv(results_dir / "validated_predictions.csv", dtype={"paper_id": str})
+    scaffold = validated.loc[validated.crop_id == scaffold_crop, "canonical_smiles"].iloc[0]
+    table = read_text_table(Path(pdf_dir) / f"{paper_id}.pdf", page, id_pattern, n_parts=len(columns))
+
+    records = []
+    for r in table.itertuples():
+        by_slot, ring, unmapped = {}, "C", []
+        for spec, text in zip(columns, r.parts.split("|")):
+            if spec == "ring":
+                if text in RING_ATOMS:
+                    ring = RING_ATOMS[text]
+                else:
+                    unmapped.append(text)
+            else:
+                fragment = SUBSTITUENTS.get(text)
+                if fragment is None:
+                    unmapped.append(text)
+                by_slot[int(spec)] = fragment
+        smiles, status = None, "unmapped: " + ",".join(unmapped) if unmapped else ""
+        if not unmapped:
+            try:
+                smiles, status = assemble_row(scaffold, by_slot, ring), "assembled"
+            except Exception as exc:
+                status = f"error: {exc}"
+        records.append({"paper_id": str(paper_id), "page": page, "compound": r.compound,
+                        "r_text": r.parts, "assembled_smiles": smiles,
+                        "scaffold_crop": scaffold_crop, "status": status})
+
+    out = pd.DataFrame(records)
+    path = results_dir / f"assembled_text_paper{paper_id}_page{page}.csv"
+    out.to_csv(path, index=False)
+    print(f"Read {len(out)} rows; assembled {(out.status == 'assembled').sum()} -> {path}")
+    return out
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Assemble molecules from a text R-group table.")
@@ -128,7 +181,12 @@ if __name__ == "__main__":
     parser.add_argument("--page", type=int, default=6)
     parser.add_argument("--scaffold-crop", default="19_p6_001")
     parser.add_argument("--id-pattern", default=r"^(1|12[a-z])$")
+    parser.add_argument("--columns", help="Comma separated mapping per text column, e.g. ring,3,2,4,5")
     args = parser.parse_args()
     cfg = yaml.safe_load(open(args.config))
-    assemble_text_table(args.results, cfg["data"]["pdf_dir"], args.paper, args.page,
-                        args.scaffold_crop, args.id_pattern)
+    if args.columns:
+        assemble_multi_slot(args.results, cfg["data"]["pdf_dir"], args.paper, args.page,
+                            args.scaffold_crop, args.id_pattern, args.columns.split(","))
+    else:
+        assemble_text_table(args.results, cfg["data"]["pdf_dir"], args.paper, args.page,
+                            args.scaffold_crop, args.id_pattern)
