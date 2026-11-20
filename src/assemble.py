@@ -121,7 +121,15 @@ def assemble_table(results_dir, pdf_dir, paper_id, page):
     row_y = frags.groupby("row").yc.mean()
     text = read_row_text(Path(pdf_dir) / f"{paper_id}.pdf", page, row_y.to_dict(),
                          col_x.iloc[0], col_x.iloc[-1])
-    
+
+    # Prefer targeted OCR results when available: compound number from row order, X from OCR
+    table_text_csv = results_dir / f"table_text_paper{paper_id}_page{page}.csv"
+    if table_text_csv.exists():
+        for r in pd.read_csv(table_text_csv).itertuples():
+            if r.row in text:
+                x_atom = r.x_atom if r.x_atom in ("C", "N") else "C"
+                text[r.row] = (str(r.compound_inferred), x_atom)
+
     # Optional: predictions for table cells that detection missed (from fill_cells + recognize)
     cell_map = {}
     cells_csv = results_dir / f"missing_cells_paper{paper_id}_page{page}.csv"

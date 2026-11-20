@@ -29,6 +29,17 @@ def ocr_crop(reader, image, allowlist):
     _, text, conf = results[0]
     return text.strip(), round(float(conf), 3)
 
+def ink_height_ratio(image, threshold=128, side_trim=0.15):
+    """Height of the dark pixels in the cell's center, as a fraction of the cell height.
+
+    The left and right edges are trimmed so table border lines don't count.
+    A dash is a thin flat stroke (small ratio); a drawn substituent with its wavy line is tall.
+    """
+    w, h = image.size
+    center = image.crop((int(w * side_trim), 0, int(w * (1 - side_trim)), h))
+    dark = np.array(center.convert("L")) < threshold
+    ys = np.where(dark.any(axis=1))[0]
+    return 0.0 if len(ys) == 0 else (ys.max() - ys.min() + 1) / h
 
 def read_table_text(results_dir, pdf_dir, paper_id, page, use_gpu=True, dpi=200):
     results_dir = Path(results_dir)
@@ -67,9 +78,10 @@ def read_table_text(results_dir, pdf_dir, paper_id, page, use_gpu=True, dpi=200)
         reads = [ocr_crop(reader, Image.open(p), allowlist="-HFClBrO") for p in cells.crop_path]
         cells["cell_ocr_text"] = [t for t, _ in reads]
         cells["cell_ocr_conf"] = [c for _, c in reads]
-        cells["is_dash"] = cells.cell_ocr_text.isin(["-", "_"])
+        cells["ink_height_ratio"] = [round(ink_height_ratio(Image.open(p)), 3) for p in cells.crop_path]
+        cells["is_dash"] = cells.ink_height_ratio < 0.2   # a flat stroke, not a drawn group
         cells.to_csv(cells_csv, index=False)
-        print(cells[["cell_id", "cell_ocr_text", "cell_ocr_conf", "is_dash"]].to_string(index=False))
+    print(cells[["cell_id", "cell_ocr_text", "ink_height_ratio", "is_dash"]].to_string(index=False))
 
     print(rows.to_string(index=False))
     return rows
