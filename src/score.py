@@ -19,6 +19,13 @@ def final_predictions(results_dir):
         a = pd.read_csv(path, dtype={"paper_id": str}).dropna(subset=["assembled_smiles"])
         parts.append(a[["paper_id", "assembled_smiles"]].rename(columns={"assembled_smiles": "predicted_smiles"}))
         print(f"Including {len(a)} assembled molecules from {path.name}")
+    
+    expanded_path = results_dir / "expanded_predictions.csv"
+    if expanded_path.exists():
+        e = pd.read_csv(expanded_path, dtype={"paper_id": str})
+        e = e[e.status.isin(["expanded_complete", "expanded_generic"])]
+        parts.append(e[["paper_id", "expanded_smiles"]].rename(columns={"expanded_smiles": "predicted_smiles"}))
+        print(f"Including {len(e)} expanded predictions from {expanded_path.name}")
     return pd.concat(parts, ignore_index=True)
 
 
@@ -30,7 +37,8 @@ if __name__ == "__main__":
     cfg = yaml.safe_load(open(args.config)); d = cfg["data"]
     gt, _ = load_dataset(cfg)
     preds = final_predictions(args.results)
-    _, summary, per_paper = evaluate_all(gt, preds, d["id_column"], d["name_column"], d["smiles_column"])
+    per_molecule, summary, per_paper = evaluate_all(gt, preds, d["id_column"], d["name_column"], d["smiles_column"])
+    per_molecule.to_csv(Path(args.results) / "final_per_molecule.csv", index=False)
     per_paper.to_csv(Path(args.results) / "final_per_paper.csv")
     print(per_paper)
     print(summary)

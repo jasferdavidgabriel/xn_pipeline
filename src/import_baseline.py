@@ -42,6 +42,7 @@ def import_baseline(source_dir, output_dir):
         "crop_id": preds["crop_id"],
         "paper_id": preds["paper_id"],
         "raw_smiles": preds["predicted_smiles"],
+        "raw_output": preds["raw_prediction"],
         "inference_time": preds["recognition_seconds"],
     })
     raw.to_csv(output_dir / "raw_predictions.csv", index=False)
