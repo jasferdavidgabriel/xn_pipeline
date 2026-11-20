@@ -21,6 +21,7 @@ RDLogger.DisableLog("rdApp.*")
 SUBSTITUENTS = {
     "-F": "*F",
     "-H": "*[H]",
+    "-OCH3": "*OC",
     "-CH3": "*C",
     "-CH2-CH3": "*CC",
     "nC3H7": "*CCC",
@@ -45,8 +46,23 @@ AMBIGUOUS = {"-ethylphenyl"}  # text with more than one reasonable reading; revi
 
 DASHES = dict.fromkeys(map(ord, "\u2010\u2011\u2012\u2013\u2014\u2212"), "-")
 NUMBER = re.compile(r"^([<>]?[\d.,]+|N/D\w*)$")   # numbers, or N/D with an optional footnote letter
-RING_ATOMS = {"CH": "C", "N": "N"}   # text in "A"-type columns -> element for a variable ring atom
+RING_ATOMS = {
+    "CH": "c", "N": "n",
+    "-CH=": "c", "-N=": "n",
+    "-C(Cl)=": "c(Cl)", "-C(CN)=": "c(C#N)",
+}
 
+def ring_dummy_isotopes(smiles):
+    """Slot numbers of the wildcards that sit inside a ring (variable ring atoms)."""
+    mol = Chem.MolFromSmiles(smiles)
+    return sorted(a.GetIsotope() for a in mol.GetAtoms() if a.GetAtomicNum() == 0 and a.IsInRing())
+
+
+def fill_ring_atoms(scaffold_smiles, replacements):
+    """Swap each variable ring atom [k*] for an aromatic token like c, n, or c(Cl)."""
+    for k, token in replacements.items():
+        scaffold_smiles = scaffold_smiles.replace(f"[{k}*]", token, 1)
+    return scaffold_smiles
 
 def normalize(text):
     """Unify dash characters and remove spaces, so dictionary lookups are reliable."""
@@ -143,13 +159,16 @@ def assemble_multi_slot(results_dir, pdf_dir, paper_id, page, scaffold_crop, id_
     scaffold = validated.loc[validated.crop_id == scaffold_crop, "canonical_smiles"].iloc[0]
     table = read_text_table(Path(pdf_dir) / f"{paper_id}.pdf", page, id_pattern, n_parts=len(columns))
 
+    ring_isotopes = ring_dummy_isotopes(scaffold)
     records = []
     for r in table.itertuples():
-        by_slot, ring, unmapped = {}, "C", []
+        by_slot, ring_fill, unmapped = {}, {}, []
         for spec, text in zip(columns, r.parts.split("|")):
-            if spec == "ring":
+            if spec.startswith("ring"):
+                # "ring:k" names the ring slot; plain "ring" means the scaffold's only ring slot
+                k = int(spec.split(":")[1]) if ":" in spec else ring_isotopes[0]
                 if text in RING_ATOMS:
-                    ring = RING_ATOMS[text]
+                    ring_fill[k] = RING_ATOMS[text]
                 else:
                     unmapped.append(text)
             else:
@@ -160,13 +179,13 @@ def assemble_multi_slot(results_dir, pdf_dir, paper_id, page, scaffold_crop, id_
         smiles, status = None, "unmapped: " + ",".join(unmapped) if unmapped else ""
         if not unmapped:
             try:
-                smiles, status = assemble_row(scaffold, by_slot, ring), "assembled"
+                filled = fill_ring_atoms(scaffold, ring_fill)
+                smiles, status = assemble_row(filled, by_slot, "C"), "assembled"
             except Exception as exc:
                 status = f"error: {exc}"
         records.append({"paper_id": str(paper_id), "page": page, "compound": r.compound,
                         "r_text": r.parts, "assembled_smiles": smiles,
                         "scaffold_crop": scaffold_crop, "status": status})
-
     out = pd.DataFrame(records)
     path = results_dir / f"assembled_text_paper{paper_id}_page{page}.csv"
     out.to_csv(path, index=False)
