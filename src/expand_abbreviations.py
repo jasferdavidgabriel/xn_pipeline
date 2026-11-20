@@ -107,12 +107,9 @@ def expand(raw_output):
         return Chem.MolToSmiles(out), "expanded_generic", "; ".join(notes)
     return Chem.MolToSmiles(out), "generic_piece", "; ".join(notes)
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Expand abbreviation labels left as wildcards.")
-    parser.add_argument("--results", default="results/A")
-    args = parser.parse_args()
-    results_dir = Path(args.results)
-
+def expand_all(results_dir):
+    """Expand annotated wildcards for every crop and save expanded_predictions.csv."""
+    results_dir = Path(results_dir)
     raw = pd.read_csv(results_dir / "raw_predictions.csv", dtype={"paper_id": str})
     rows = []
     for r in raw.itertuples():
@@ -122,6 +119,11 @@ if __name__ == "__main__":
     out = pd.DataFrame(rows)
     out.to_csv(results_dir / "expanded_predictions.csv", index=False)
     print(out.status.value_counts().to_string())
-    print()
-    used = out[out.status.str.startswith("expanded")]
-    print(used[["crop_id", "status", "labels"]].to_string(index=False))
+    return out
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Expand abbreviation labels left as wildcards.")
+    parser.add_argument("--results", default="results/A")
+    args = parser.parse_args()
+    expand_all(args.results)

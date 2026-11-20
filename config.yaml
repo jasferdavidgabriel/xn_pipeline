@@ -11,6 +11,17 @@ biominer:
   molglyph_weights: ../BioMiner-main/molglyph_large.pt
   moldet_weights: ../BioMiner-main/moldet_v2_yolo11n_960_doc.pt
   device: cpu            # Colab runs override this with --device cuda
-  
+
 output:
   results_dir: results
+
+  # Tables to assemble. Each entry records settings verified in development:
+# slot mappings and linker direction were each confirmed with a self test or by name.
+tables:
+  drawn:            # scaffold + drawn R-group cells (src/assemble.py)
+    - {paper: "2", page: 5}
+  text:             # R-groups written as text (src/text_tables.py)
+    - {paper: "19", page: 4, scaffold_crop: 19_p4_003, id_pattern: '^[1-6]$', columns: ["ring:1", "ring:2", "3"]}
+    - {paper: "19", page: 5, scaffold_crop: 19_p5_001, id_pattern: '^(1|10[a-i])$', linker: reverse}
+    - {paper: "19", page: 6, scaffold_crop: 19_p6_001, id_pattern: '^(1|12[a-z])$'}
+    - {paper: "19", page: 8, scaffold_crop: 19_p8_001, id_pattern: '^(VMF|20[a-g]|2[1-5])$', columns: [ring, "3", "2", "4", "5"]}

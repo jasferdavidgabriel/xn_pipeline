@@ -29,16 +29,22 @@ def final_predictions(results_dir):
     return pd.concat(parts, ignore_index=True)
 
 
+def score(results_dir, cfg):
+    """Score final predictions; save per molecule and per paper results."""
+    results_dir, d = Path(results_dir), cfg["data"]
+    gt, _ = load_dataset(cfg)
+    preds = final_predictions(results_dir)
+    per_molecule, summary, per_paper = evaluate_all(gt, preds, d["id_column"], d["name_column"], d["smiles_column"])
+    per_molecule.to_csv(results_dir / "final_per_molecule.csv", index=False)
+    per_paper.to_csv(results_dir / "final_per_paper.csv")
+    print(per_paper)
+    print(summary)
+    return summary
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Score the pipeline's final predictions.")
     parser.add_argument("--results", default="results/A")
     parser.add_argument("--config", default="config.yaml")
     args = parser.parse_args()
-    cfg = yaml.safe_load(open(args.config)); d = cfg["data"]
-    gt, _ = load_dataset(cfg)
-    preds = final_predictions(args.results)
-    per_molecule, summary, per_paper = evaluate_all(gt, preds, d["id_column"], d["name_column"], d["smiles_column"])
-    per_molecule.to_csv(Path(args.results) / "final_per_molecule.csv", index=False)
-    per_paper.to_csv(Path(args.results) / "final_per_paper.csv")
-    print(per_paper)
-    print(summary)
+    score(args.results, yaml.safe_load(open(args.config)))
