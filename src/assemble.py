@@ -139,6 +139,8 @@ def assemble_table(results_dir, pdf_dir, paper_id, page):
             pd.read_csv(preds_csv)[["crop_id", "raw_smiles"]],
             left_on="cell_id", right_on="crop_id")
         for c in filled.itertuples():
+            if str(getattr(c, "is_dash", False)) == "True":
+                continue                      # a dash means no substituent, so the slot stays H
             canonical, status = classify_smiles(c.raw_smiles)
             if status == "fragment":
                 cell_map[(c.row, c.col)] = canonical
