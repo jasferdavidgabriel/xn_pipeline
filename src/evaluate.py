@@ -5,7 +5,7 @@ from rdkit.Chem import rdFingerprintGenerator
 import pandas as pd
 
 RDLogger.DisableLog("rdApp.*")  # hide RDKit warnings about unparseable SMILES
-MORGAN_GENERATOR = rdFingerprintGenerator.GetMorganGenerator(radius=2, fpSize=2048)
+MORGAN_GENERATOR = rdFingerprintGenerator.GetMorganGenerator(radius=2, fpSize=2048, includeChirality=True)
 
 
 def canonicalize(smiles):
