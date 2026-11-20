@@ -7,8 +7,10 @@ data:
   smiles_column: canonical_SMILES
 
 biominer:
-  repo_dir: ../BioMiner        # where BioMiner is cloned on the GPU machine
-  config_path: BioMiner/config/default_open_source.yaml
-
+  repo_dir: ../BioMiner-main
+  molglyph_weights: ../BioMiner-main/molglyph_large.pt
+  moldet_weights: ../BioMiner-main/moldet_v2_yolo11n_960_doc.pt
+  device: cpu            # Colab runs override this with --device cuda
+  
 output:
   results_dir: results
