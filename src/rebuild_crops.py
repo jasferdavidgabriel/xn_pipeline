@@ -1,0 +1,43 @@
+"""Rebuild Config A crop images from the PDFs, using the box coordinates saved in crops.csv."""
+import argparse
+from pathlib import Path
+
+import pymupdf
+import pandas as pd
+import yaml
+from PIL import Image
+
+
+def rebuild_crops(results_dir, pdf_dir, dpi=200, margin=10):
+    results_dir = Path(results_dir)
+    crop_dir = results_dir / "crops"
+    crop_dir.mkdir(parents=True, exist_ok=True)
+    crops = pd.read_csv(results_dir / "crops.csv", dtype={"paper_id": str})
+
+    for paper_id, paper_rows in crops.groupby("paper_id"):
+        doc = pymupdf.open(Path(pdf_dir) / f"{paper_id}.pdf")
+        for page_no, page_rows in paper_rows.groupby("page"):
+            # Render the page at the same DPI the boxes were measured at (pages are 1 based in the CSV)
+            pix = doc[int(page_no) - 1].get_pixmap(dpi=dpi)
+            page_img = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+            for idx, r in page_rows.iterrows():
+                box = (
+                    max(0, int(r["x1"]) - margin), max(0, int(r["y1"]) - margin),
+                    min(pix.width, int(r["x2"]) + margin), min(pix.height, int(r["y2"]) + margin),
+                )
+                crop_path = crop_dir / f"{r['crop_id']}.png"
+                page_img.crop(box).save(crop_path)
+                crops.loc[idx, "crop_path"] = str(crop_path)
+        doc.close()
+
+    crops.to_csv(results_dir / "crops.csv", index=False)
+    print(f"Rebuilt {len(crops)} crops into {crop_dir}/")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Rebuild crop images from PDFs and saved boxes.")
+    parser.add_argument("--results", default="results/A")
+    parser.add_argument("--config", default="config.yaml")
+    args = parser.parse_args()
+    config = yaml.safe_load(open(args.config))
+    rebuild_crops(args.results, config["data"]["pdf_dir"])
