@@ -1,0 +1,13 @@
+crop_id,canonical_smiles,verdict,notes
+2_p3_003,[1*]c1c([2*])c([3*])c([4*])c([5*])c1Nc1nc2ccc(C#N)cc2[nH]1,,
+2_p3_004,[1*]c1c([2*])c([3*])c([4*])c([5*])c1N,,
+2_p5_001,[1*]c1[5*]([2*])c([4*])c([3*])cc1Nc1nc2cc(C#N)ccc2[nH]1,,
+2_p5_002,*N1CCN(C)CC1,,
+2_p5_003,*N1CCN(C)CC1,,
+2_p5_004,*N1CCN(C)CC1,,
+2_p5_005,*N1CCOCC1,,
+2_p5_006,*N1CCNCC1,,
+2_p5_007,*N1CCOCC1,,
+2_p5_008,*N1CCOCC1,,
+2_p5_009,*OC(F)F,,
+2_p5_010,*N1CCOCC1,,

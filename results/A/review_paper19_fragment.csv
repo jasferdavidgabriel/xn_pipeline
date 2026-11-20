@@ -1,0 +1,13 @@
+crop_id,canonical_smiles,verdict,notes
+19_p5_001,CCCS(=O)(=O)Nc1ccc(F)c(*c2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,,
+19_p5_002,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2*[nH]c3ncc(-c4ccc(OC)cc4Cl)cc23)c1F,,
+19_p6_001,*S(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,,
+19_p7_001,*c1cnc2[nH]c3ccc(C(=O)c4c(F)ccc(NS(=O)(=O)CCC)c4F)cc3c2c1,,
+19_p7_003,*c1ccc(S(N)(=O)=O)cc1,,
+19_p7_004,*c1ccc(S(N)(=O)=O)cc1,,
+19_p7_005,*c1ccc(N)cc1,,
+19_p7_006,*c1ccnnc1,,
+19_p7_007,*c1cnc(C2CC2)nc1,,
+19_p7_008,*c1cnc(OC)nc1,,
+19_p7_009,*c1cccnc1,,
+19_p9_002,*c1cnc(OC)nc1,,
