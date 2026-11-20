@@ -47,6 +47,10 @@ def evaluate_all(ground_truth, predictions, id_col, name_col, smiles_col):
     """Score every paper; return a per molecule table and an overall summary."""
     predictions = predictions.copy()
     predictions["paper_id"] = predictions["paper_id"].astype(str)  # match ground truth ID type
+    # Keep one row per unique molecule per paper (220 references, not 222 raw rows)
+    ground_truth = ground_truth.copy()
+    ground_truth["_canonical"] = ground_truth[smiles_col].apply(canonicalize)
+    ground_truth = ground_truth.drop_duplicates(subset=[id_col, "_canonical"])
 
     per_molecule, num_predictions, num_valid, num_correct = [], 0, 0, 0
     for paper_id, paper_truth in ground_truth.groupby(id_col):
