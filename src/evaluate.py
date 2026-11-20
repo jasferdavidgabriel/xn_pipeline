@@ -67,6 +67,11 @@ def evaluate_all(ground_truth, predictions, id_col, name_col, smiles_col):
         num_correct += sum(1 for pred in valid_preds if pred in true_set)
 
     results = pd.DataFrame(per_molecule)
+    per_paper = results.groupby("paper_id").agg(
+        true_molecules=("true_canonical", "size"),
+        exact_match_recall=("exact_match", "mean"),
+        mean_best_tanimoto=("best_tanimoto", "mean"),
+    ).round(4).sort_index(key=lambda ids: ids.astype(int))  # sort by paper ID as integer
     summary = {
         "num_papers": int(results["paper_id"].nunique()),
         "num_true_molecules": int(len(results)),
@@ -76,4 +81,4 @@ def evaluate_all(ground_truth, predictions, id_col, name_col, smiles_col):
         "precision": round(num_correct / num_predictions, 4) if num_predictions else 0.0,
         "mean_best_tanimoto": round(float(results["best_tanimoto"].mean()), 4),
     }
-    return results, summary
+    return results, summary, per_paper
