@@ -12,6 +12,7 @@ import pandas as pd
 import pymupdf
 import yaml
 from rdkit import Chem, RDLogger
+from src.validate import classify_smiles
 
 RDLogger.DisableLog("rdApp.*")
 
@@ -120,12 +121,31 @@ def assemble_table(results_dir, pdf_dir, paper_id, page):
     row_y = frags.groupby("row").yc.mean()
     text = read_row_text(Path(pdf_dir) / f"{paper_id}.pdf", page, row_y.to_dict(),
                          col_x.iloc[0], col_x.iloc[-1])
+    
+    # Optional: predictions for table cells that detection missed (from fill_cells + recognize)
+    cell_map = {}
+    cells_csv = results_dir / f"missing_cells_paper{paper_id}_page{page}.csv"
+    preds_csv = results_dir / f"cell_predictions_paper{paper_id}_page{page}.csv"
+    if cells_csv.exists() and preds_csv.exists():
+        filled = pd.read_csv(cells_csv).merge(
+            pd.read_csv(preds_csv)[["crop_id", "raw_smiles"]],
+            left_on="cell_id", right_on="crop_id")
+        for c in filled.itertuples():
+            canonical, status = classify_smiles(c.raw_smiles)
+            if status == "fragment":
+                cell_map[(c.row, c.col)] = canonical
+        print(f"Using {len(cell_map)} recognized cells to fill gaps")
 
     records = []
-    for row, cells in frags.groupby("row"):
+    for row, row_crops in frags.groupby("row"):
         by_slot = {slot: None for slot in slots}
-        for _, c in cells.iterrows():
+        for _, c in row_crops.iterrows():
             by_slot[col_to_slot[c.col]] = c.canonical_smiles
+        filled_from_cells = []
+        for col, slot in col_to_slot.items():
+            if by_slot[slot] is None and (row, col) in cell_map:
+                by_slot[slot] = cell_map[(row, col)]
+                filled_from_cells.append(f"R{slot}")
         assumed = [f"R{s}" for s, f in by_slot.items() if f is None]
         name, x_elem = text[row]
         try:
@@ -134,8 +154,9 @@ def assemble_table(results_dir, pdf_dir, paper_id, page):
             smiles, error = None, str(exc)
         records.append({
             "paper_id": str(paper_id), "page": page, "row": row, "compound": name, "x_atom": x_elem,
-            "assembled_smiles": smiles, "assumed_h": ",".join(assumed),
-            "scaffold_crop": scaffold.crop_id, "fragment_crops": ",".join(cells.crop_id), "error": error,
+            "assembled_smiles": smiles, "filled_from_cells": ",".join(filled_from_cells),
+            "assumed_h": ",".join(assumed), "scaffold_crop": scaffold.crop_id,
+            "fragment_crops": ",".join(row_crops.crop_id), "error": error,
         })
 
     out = pd.DataFrame(records)
