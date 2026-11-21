@@ -1,0 +1,11 @@
+paper_id,page,compound,label_ocr,scaffold_crop,assembled_smiles,problems
+4,3,11,11 R =Boc,4_p3_005,CC(C)(C)OC(=O)N1CCN(CCOc2cccc3c2C(=O)N(C2CCC(=O)NC2=O)C3=O)CC1,
+4,3,12,12 R==,4_p3_005,CC(C)(C)OC(=O)NCCCCCN1CCN(CCOc2cccc3c2C(=O)N(C2CCC(=O)NC2=O)C3=O)CC1,
+4,3,19,19 R =Br; RI=H,4_p3_011,O=C1CCC(N2Cc3c(Br)cccc3C2=O)C(=O)N1,
+4,3,20,20 R = Bpin; R1 = H,4_p3_011,CC1(C)OB(c2cccc3c2CN(C2CCC(=O)NC2=O)C3=O)OC1(C)C,
+4,3,21,21 R = Bpin; R1 = Boc,4_p3_011,CC(C)(C)OC(=O)N1C(=O)CCC(N2Cc3c(B4OC(C)(C)C(C)(C)O4)cccc3C2=O)C1=O,
+4,3,36,"36 R = DMB, R' = Boc",4_p3_003,,unresolved label CH[2]
+4,3,37,"37 R=H,R'=h",4_p3_003,,unresolved label CH[2]
+4,3,39,"39 R = SEM, R' = Boc",4_p3_006,CC(C)(C)OC(=O)N1CCN(CCOc2ccc(N3CCC(=O)N(COCC[Si](C)(C)C)C3=O)cc2)CC1,
+4,3,40,"40 R=H,R'=h",4_p3_006,O=C1CCN(c2ccc(OCCN3CCNCC3)cc2)C(=O)N1,
+4,3,41,"41 R=h,R'=",4_p3_006,CC(C)(C)OC(=O)NCCCCCN1CCN(CCOc2ccc(N3CCC(=O)NC3=O)cc2)CC1,

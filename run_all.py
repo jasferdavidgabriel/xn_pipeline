@@ -21,6 +21,7 @@ from src.pieces import linker_table, warhead_table
 from src.image_tables import assemble_image_table
 from src.grid_tables import assemble_grid_table
 from src.scheme_placeholders import resolve_scheme
+from src.scheme_labels import assemble_scheme_labels
 
 
 def main(config_path, results_dir):
@@ -74,12 +75,15 @@ def main(config_path, results_dir):
         resolve_scheme(results, pdf_dir, job["paper"], job["page"], job["box_crops"],
                        letters=job["letters"], blue_letter=job["blue_letter"])
 
+    print("\n== 3f. Assemble compounds from scheme labels")
+    for job in cfg["tables"].get("labels", []):
+        assemble_scheme_labels(results, job["paper"], job["page"], job["chain_crop"])   
+
     print("\n== 4. Expand abbreviation labels")
     expand_all(results)
 
     print("\n== 5. Score")
     score(results, cfg)
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Rebuild all pipeline results.")

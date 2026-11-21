@@ -35,3 +35,5 @@ tables:
     - {paper: "19", page: 9, scaffold_crop: 19_p8_001}
   scheme:           # scheme placeholders resolved by the scheme's own definition box (src/scheme_placeholders.py)
     - {paper: "4", page: 3, box_crops: [4_p3_040, 4_p3_041, 4_p3_039, 4_p3_031], letters: ABCD, blue_letter: C}
+  labels:           # compounds defined by text labels in a scheme (src/page_ocr.py on Colab, src/scheme_labels.py)
+    - {paper: "4", page: 3, chain_crop: 4_p3_038}
