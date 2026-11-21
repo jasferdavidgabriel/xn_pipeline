@@ -1,0 +1,26 @@
+true_canonical,best_prediction,exact_match,best_tanimoto,paper_id,molecule_name,category,detail
+c1ccc(CC2CCCCN2/C2=N\CCCCCCOc3ccccc3Oc3ncccc32)cc1,COc1ccccc1Oc1cccnc1CN1CCCCC1Cc1ccccc1,False,0.3506,16,P_1,large difference,-5C -7H -1N
+CC(C)C[C@@H]1NC(=O)[C@H](C)NC(=O)[C@H](Cc2ccccc2)NC(=O)CN(Cc2ccccc2)C(=O)[C@@H]2CCCN2C(=O)[C@@H](CC(C)C)N(C)C1=O,CC(C)C[C@H]1NC(=O)[C@H](C)NC(=O)[C@H](Cc2ccccc2)NC(=O)CN(Cc2ccccc2)C(=O)[C@@H]2CCCN2C(=O)[C@H](CC(C)C)N(C)C1=O,False,0.76,16,P_2,stereo only,same atoms and bonds
+COC1CN(C(C)=O)CCCN(Cc2ncccc2C)CCCCOCC(O)C1O,COc1ccccc1Oc1cccnc1CN1CCCCC1Cc1ccccc1,False,0.2558,16,N_1,large difference,+3C -9H -1N -3O
+CCCS(=O)(=O)Nc1ccc(F)c(/C=C/c2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,CCCS(=O)(=O)Nc1ccc(F)c(C=Cc2c[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,False,0.8413,19,10e,stereo only,same atoms and bonds
+CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2ccc3[nH]c4ncc(-c5ccccc5F)cc4c3c2)c1F,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2ccc3[nH]c4ncc(-c5cccnc5)cc4c3c2)c1F,False,0.7778,19,9a,large difference,-1C -1F +1N
+CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2ccc3[nH]c4ncc(-c5ccc(Cl)cc5)cc4c3c2)c1F,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2ccc3[nH]c4ncc(-c5ccnnc5)cc4c3c2)c1F,False,0.8116,19,9b,large difference,-2C -1Cl -1H +2N
+CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2ccc3[nH]c4ncc(-c5ccc(O)cc5)cc4c3c2)c1F,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2ccc3[nH]c4ncc(-c5ccnnc5)cc4c3c2)c1F,False,0.8116,19,9c,large difference,-2C -2H +2N -1O
+*c1cnc2c(c1)c(C(=O)c1ccc(F)c(NS(=O)(=O)CCC)c1F)nn2C1CCCCO1,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2nn(C3CCCCO3)c3ncc(Br)cc23)c1F,False,0.84,19,B9,small formula error,-1* +1Br
+N#Cc1ccc2[nH]c(Nc3ccc(N4CCNCC4)c(Cl)c3)nc2c1,N#Cc1ccc2[nH]c(Nc3ccc(N4CCCCC4)c(Cl)c3)nc2c1,False,0.86,2,22,small formula error,+1C +1H -1N
+N#Cc1ccc2nc(Nc3ccc(N4CCN(C(=O)CCNC(=O)CCc5ccc6n5[B-](F)(F)[N+]5=C(c7ccc[nH]7)C=CC5=C6)CC4)c(Cl)c3)[nH]c2c1,CC(C)(C)OC(=O)NCCC(=O)N1CCN(c2ccc(Nc3nc4ccc(C#N)cc4[nH]3)cc2Cl)CC1,False,0.5566,2,23,large difference,-1B -11C -2F -4H -3N +1O
+N#Cc1ccc2[nH]c(Cl)nc2c1,N#Cc1ccc2nc(Cl)[nH]c2c1,False,0.75,2,unnamed cmpd 1 in Scheme 1,isomer,"same formula, different connections"
+Nc1c([*:1])c([*:2])c([*:3])c([*:4])c1[*:5],CC(C)(C)OC(=O)N1CCN(c2ccc(N)cc2Cl)CC1,False,0.0682,2,unnamed cmpd 2 in Scheme 1,large difference,-5* +9C +1Cl +20H +2N +2O
+CC(C)(C)OC(=O)NCCCCCOCCCCC#Cc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,CC(C)(C)OC(=O)NCCCCCOCCCCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,False,0.76,4,15,small formula error,-1C +2H +1O
+CC(C)(C)OC(=O)NCCCCCOCCCCCCc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,CC(C)(C)OC(=O)NCCCCCOCCCCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,False,0.8143,4,16,small formula error,-1C -2H +1O
+[Cl-].[NH3+]C1CCC(=O)NC1=O,Cl.NC1CCC(=O)NC1=O,False,0.5185,4,18,isomer,"same formula, different connections"
+CC(C)(C)OC(=O)NCCCCCOCCCCCOc1ccc(C2CCC(=O)NC2=O)cc1,CC(C)(C)OC(=O)NCCCCCOCCCCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,False,0.5753,4,28,large difference,+2C -1H +1N +2O
+CC(C)(C)OC(=O)NCCCCCOCCCCCOc1ccccc1-c1cn(C2CCC(=O)NC2=O)nn1,CC(C)(C)OC(=O)NCCCCCOCCCCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,False,0.6883,4,32,large difference,-2H -2N +2O
+COc1ccc(CN2C(=O)CCN(c3ccc(OCCCCCOCCCCCNC(=O)OC(C)(C)C)cc3)C2=O)c(OC)c1,COc1ccc(CN2C(=O)CCN(c3ccc(O)cc3)C2=O)c(OC)c1,False,0.5915,4,36,large difference,-15C -29H -1N -3O
+NCCCCCOCCCCCOc1ccc(N2CCC(=O)NC2=O)cc1,O=C1CCN(c2ccc(OCCN3CCNCC3)cc2)C(=O)N1,False,0.5882,4,37,large difference,-4C -9H +1N -1O
+COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCCCN1CCN(CCOc2ccc(N3CCC(=O)NC3=O)cc2)CC1,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCCCOCCCCOc1ccc(N2CCC(=O)NC2=O)cc1,False,0.8889,4,50,large difference,-2C -4H -2N +1O
+COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCOCCOCCOCCCNC(=O)CCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCOCCCOCCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,False,0.9266,4,dAURK-4,large difference,-4C -7H -1N -2O
+COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCOCCOCCOCCOCCNc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCOCCOCCOCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,False,0.8991,4,PROTAC-D,large difference,-2C -5H -1N
+O=C(COc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O)NCCOCCOCCNC(=O)[C@]1(Cc2cccc(Nc3nccs3)n2)CC[C@@H](Oc2cccc(Cl)c2F)CC1,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCOCCOCCNC(=O)COc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,False,0.4507,4,JB300,large difference,+5C -1H +1N +1O -1S
+O=C1CCC(N2C(=O)c3cccc(OCCOCCOCCOCCNC(=O)[C@]4(Cc5cccc(Nc6nccs6)n5)CC[C@@H](Oc5cccc(Cl)c5F)CC4)c3C2=O)C(=O)N1,CC(C)(C)OC(=O)NCCOCCOCCOCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,False,0.4906,4,SK2188,large difference,-17C -1Cl -1F -11H -3N -1S
+Cc1cc(C(=O)NCCCCc2cn(CCCC(=O)NCCCCNc3cccc4c3C(=O)N(C3CCC(=O)NC3=O)C4=O)nn2)ccc1-n1c(C)cc(OCc2ccc(F)cc2F)c(Br)c1=O,Cc1ccc(C(=O)NCCCCc2cn(CCCC(=O)NCCCCNc3cccc4c3C(=O)N(C3CCC(=O)NC3=O)C4=O)nn2)cc1-n1c(C)cc(OCc2ccc(F)cc2F)c(Br)c1=O,False,0.9322,6,NR-7h,isomer,"same formula, different connections"
