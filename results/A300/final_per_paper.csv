@@ -4,4 +4,4 @@ paper_id,true_molecules,exact_match_recall,mean_best_tanimoto
 4,60,0.5333,0.7937
 6,1,0.0,0.9322
 16,4,0.25,0.5916
-19,104,0.6538,0.9016
+19,104,0.7212,0.9298
