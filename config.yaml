@@ -33,3 +33,5 @@ tables:
     - {paper: "19", page: 7, scaffolds: {A: 19_p7_002, B: 19_p7_001}, ring_slot: 1, r_slot: 2}
   grid:             # tables read by grid detection + grid OCR (src/table_grid.py, src/grid_ocr.py on Colab, src/grid_tables.py)
     - {paper: "19", page: 9, scaffold_crop: 19_p8_001}
+  scheme:           # scheme placeholders resolved by the scheme's own definition box (src/scheme_placeholders.py)
+    - {paper: "4", page: 3, box_crops: [4_p3_040, 4_p3_041, 4_p3_039, 4_p3_031], letters: ABCD, blue_letter: C}

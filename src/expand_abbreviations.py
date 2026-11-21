@@ -54,8 +54,11 @@ def resolve_label(label):
     return "unknown", None, label
 
 
-def expand(raw_output):
-    """Return (smiles, status, notes) after expanding annotated wildcards."""
+def expand(raw_output, extra=None, dum_fragment=None):
+    """Return (smiles, status, notes) after expanding annotated wildcards.
+    extra maps labels to fragments for this call only (e.g. {"C": linker C from a scheme's box});
+    dum_fragment, if given, fills an unlabeled <dum> wildcard.
+    """
     if not isinstance(raw_output, str) or "<sep>" not in raw_output:
         return None, "no annotations", ""
     base, extension = raw_output.split("<sep>", 1)
@@ -72,7 +75,12 @@ def expand(raw_output):
         if idx >= rw.GetNumAtoms() or rw.GetAtomWithIdx(idx).GetAtomicNum() != 0:
             notes.append(f"{label}: not on a wildcard")
             continue
-        kind, fragment, matched = resolve_label(label)
+        if extra and label in extra:
+            kind, fragment, matched = "abbreviation", extra[label], label
+        elif label == "<dum>" and dum_fragment:
+            kind, fragment, matched = "abbreviation", dum_fragment, "blue placeholder"
+        else:
+            kind, fragment, matched = resolve_label(label)
         notes.append(f"{label} -> {matched}" if kind != "unknown" else f"{label} -> ?")
         if kind == "unknown":
             return None, "unknown label", "; ".join(notes)

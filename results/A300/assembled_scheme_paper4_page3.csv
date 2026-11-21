@@ -1,0 +1,12 @@
+paper_id,page,crop_id,assembled_smiles,labels,flags
+4,3,4_p3_010,CC(C)(C)OC(=O)NCCOCCOCCOCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,ABD -> ABD,linker A
+4,3,4_p3_010,CC(C)(C)OC(=O)NCCCOCCCOCCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,ABD -> ABD,linker B
+4,3,4_p3_010,CC(C)(C)OC(=O)NCCCCCOCCCCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,ABD -> ABD,linker C
+4,3,4_p3_010,CC(C)(C)OC(=O)N1CC[C@@H](OCCOCCOCCOc2cccc3c2C(=O)N(C2CCC(=O)NC2=O)C3=O)C1,ABD -> ABD,linker D
+4,3,4_p3_016,CC(C)(C)OC(=O)NCCCCCOCCCCCOc1ccc(-c2ccc(OCc3ccccc3)nc2OCc2ccccc2)cc1,<dum> -> blue placeholder; OBn -> OBn; OBn -> OBn,blue placeholder assumed C
+4,3,4_p3_028,C#Cc1ccccc1OCCCCCOCCCCCNC(=O)OC(C)(C)C,<dum> -> blue placeholder,blue placeholder assumed C
+4,3,4_p3_032,C#CCCCCOCCCCCNC(=O)OC(C)(C)C,C -> C,
+4,3,4_p3_033,CC(C)(C)OC(=O)NCCCCCOCCCCCBr,C -> C,
+4,3,4_p3_034,CC(C)(C)OC(=O)NCCCCCOCCCCCBr,C -> C,
+4,3,4_p3_036,CC(C)(C)OC(=O)NCCCCCOCCCCCBr,C -> C,
+4,3,4_p3_037,CC(C)(C)OC(=O)NCCCCCOCCCCCBr,C -> C,
