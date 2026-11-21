@@ -31,3 +31,5 @@ tables:
     - {paper: "4", page: 4, warhead_crop: 4_p6_004, ligand_piece_crop: 4_p6_001, name_pattern: '^(JB\d+|4[2-6]|51)$'}
   image:            # image tables read by targeted OCR (src/read_columns.py on Colab, then src/image_tables.py)
     - {paper: "19", page: 7, scaffolds: {A: 19_p7_002, B: 19_p7_001}, ring_slot: 1, r_slot: 2}
+  grid:             # tables read by grid detection + grid OCR (src/table_grid.py, src/grid_ocr.py on Colab, src/grid_tables.py)
+    - {paper: "19", page: 9, scaffold_crop: 19_p8_001}

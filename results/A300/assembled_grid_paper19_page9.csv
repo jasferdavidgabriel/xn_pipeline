@@ -1,0 +1,26 @@
+paper_id,page,band,R1,R1_ocr,A,X,R2_crop,assembled_smiles,flags,status
+19,9,1,nC3H7,nCzHz,"2,4",CH,19_p9_007,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(-c4ccc(OC)cc4Cl)cc23)c1F,,assembled
+19,9,2,nC3H7,nCzHz,"2,6",CH,19_p9_007,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2c[nH]c3ncc(-c4ccc(OC)cc4Cl)cc23)c1F,,assembled
+19,9,3,nC3H7,nCzHz,"2,4",N,19_p9_007,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2n[nH]c3ncc(-c4ccc(OC)cc4Cl)cc23)c1F,,assembled
+19,9,4,nC3H7,nCzHz,"2,6",N,19_p9_007,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2n[nH]c3ncc(-c4ccc(OC)cc4Cl)cc23)c1F,,assembled
+19,9,5,nC3H7,nCzHz,"2,4",N,19_p9_003,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2n[nH]c3ncc(-c4ccc(F)cc4C)cc23)c1F,,assembled
+19,9,6,nC3H7,nCzHz,"2,6",N,19_p9_003,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2n[nH]c3ncc(-c4ccc(F)cc4C)cc23)c1F,,assembled
+19,9,8,benzyl,benzyl,"2,4",CH,19_p9_006,O=C(c1c(F)ccc(NS(=O)(=O)Cc2ccccc2)c1F)c1c[nH]c2ncc(-c3cnc(C4CC4)nc3)cc12,,assembled
+19,9,9,benzyl,benzyl,"2,6",CH,19_p9_006,O=C(c1ccc(F)c(NS(=O)(=O)Cc2ccccc2)c1F)c1c[nH]c2ncc(-c3cnc(C4CC4)nc3)cc12,,assembled
+19,9,10,benzyl,benzyl,"2,6",N,19_p9_006,O=C(c1ccc(F)c(NS(=O)(=O)Cc2ccccc2)c1F)c1n[nH]c2ncc(-c3cnc(C4CC4)nc3)cc12,,assembled
+19,9,11,-CH3,-CHz,"2,6",CH,19_p9_006,CS(=O)(=O)Nc1c(F)ccc(C(=O)c2c[nH]c3ncc(-c4cnc(C5CC5)nc4)cc23)c1F,,assembled
+19,9,12,-(CH2)2-CF3,(CHz)-CF3,"2,6",CH,19_p9_006,O=C(c1ccc(F)c(NS(=O)(=O)CCC(F)(F)F)c1F)c1c[nH]c2ncc(-c3cnc(C4CC4)nc3)cc12,,assembled
+19,9,13,-C2H5,-CzH5,"2,6",CH,19_p9_006,CCS(=O)(=O)Nc1c(F)ccc(C(=O)c2c[nH]c3ncc(-c4cnc(C5CC5)nc4)cc23)c1F,,assembled
+19,9,14,nC3H7,nCzHz,"2,4",CH,19_p9_006,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(-c4cnc(C5CC5)nc4)cc23)c1F,,assembled
+19,9,15,nC3H7,nCzHz,"2,6",CH,19_p9_006,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2c[nH]c3ncc(-c4cnc(C5CC5)nc4)cc23)c1F,,assembled
+19,9,16,nC3H7,nCzHz,"2,6",N,19_p9_006,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2n[nH]c3ncc(-c4cnc(C5CC5)nc4)cc23)c1F,,assembled
+19,9,18,nC3H7,nCzHz,"2,4",CH,19_p9_005,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(-c4ccncc4)cc23)c1F,R2 inferred from neighbor,assembled
+19,9,19,nC3H7,nCzHz,"2,6",CH,19_p9_005,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2c[nH]c3ncc(-c4ccncc4)cc23)c1F,,assembled
+19,9,20,benzyl,benzyl,"2,6",CH,19_p9_005,O=C(c1ccc(F)c(NS(=O)(=O)Cc2ccccc2)c1F)c1c[nH]c2ncc(-c3ccncc3)cc12,,assembled
+19,9,21,-C2H5,-CH5,"2,6",CH,19_p9_005,CCS(=O)(=O)Nc1c(F)ccc(C(=O)c2c[nH]c3ncc(-c4ccncc4)cc23)c1F,,assembled
+19,9,22,nC3H7,nCHz,"2,6",N,19_p9_005,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2n[nH]c3ncc(-c4ccncc4)cc23)c1F,,assembled
+19,9,23,-CH3,-CH,"2,6",N,19_p9_005,CS(=O)(=O)Nc1c(F)ccc(C(=O)c2n[nH]c3ncc(-c4ccncc4)cc23)c1F,,assembled
+19,9,24,-C2H5,-CH5,"2,6",N,19_p9_005,CCS(=O)(=O)Nc1c(F)ccc(C(=O)c2n[nH]c3ncc(-c4ccncc4)cc23)c1F,,assembled
+19,9,25,nC3H7,nCHHz,"2,6",CH,19_p9_002,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2c[nH]c3ncc(-c4cnc(OC)nc4)cc23)c1F,,assembled
+19,9,26,nC3H7,nCHHz,"2,6",N,19_p9_002,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2n[nH]c3ncc(-c4cnc(OC)nc4)cc23)c1F,,assembled
+19,9,27,nC3H7,nCzH7,"2,6",CH,19_p9_004,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2c[nH]c3ncc(-c4cnc(SC)nc4C)cc23)c1F,,assembled
