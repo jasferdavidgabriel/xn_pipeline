@@ -29,17 +29,15 @@ def lower_picture_threshold(value):
 
 def build_converter(images_scale):
     from docling.datamodel.base_models import InputFormat
-    from docling.datamodel.layout_model_specs import DOCLING_LAYOUT_HERON
     from docling.datamodel.pipeline_options import PdfPipelineOptions
     from docling.document_converter import DocumentConverter, PdfFormatOption
     opts = PdfPipelineOptions()
     opts.images_scale = images_scale
     opts.generate_picture_images = True
-    if hasattr(opts, "generate_table_images"):
-        opts.generate_table_images = True
-    opts.layout_options.model_spec = DOCLING_LAYOUT_HERON
+    opts.generate_page_images = True      # table images are cropped from page images in this version
+    # Heron is the default layout model in this version; print it so the run records what was used
+    print("Layout model:", opts.layout_options.model_spec.name)
     return DocumentConverter(format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=opts)})
-
 
 def extract_figures(pdf_dir, results_dir, paper_ids, images_scale=3.0, threshold=0.4, min_bytes=5 * 1024):
     results_dir = Path(results_dir)
