@@ -59,4 +59,33 @@ def extract_figures(pdf_dir, results_dir, paper_ids, images_scale=3.0, threshold
                     continue
                 buf = io.BytesIO()
                 img.save(buf, format="PNG")
-                if buf.tell()
+                if buf.tell() < min_bytes:                       # tiny images are noise
+                    counts["dropped"] += 1
+                    continue
+                prov = item.prov[0]
+                page_height = doc.pages[prov.page_no].size.height
+                box = prov.bbox.to_top_left_origin(page_height=page_height)
+                figure_id = f"{pid}_p{prov.page_no}_{kind[0]}{counts[kind]:03d}"
+                path = image_dir / f"{figure_id}.png"
+                path.write_bytes(buf.getvalue())
+                counts[kind] += 1
+                rows.append({"paper_id": str(pid), "page": prov.page_no, "figure_id": figure_id, "kind": kind,
+                             "x1": round(box.l * POINTS_TO_PX), "y1": round(box.t * POINTS_TO_PX),
+                             "x2": round(box.r * POINTS_TO_PX), "y2": round(box.b * POINTS_TO_PX),
+                             "images_scale": images_scale, "image_path": str(path)})
+        print(f"paper {pid}: {counts['picture']} pictures, {counts['table']} tables, {counts['dropped']} dropped as noise")
+
+    df = pd.DataFrame(rows)
+    df.to_csv(results_dir / "figures.csv", index=False)
+    print(f"{len(df)} figure and table images -> {results_dir / 'figures.csv'}")
+    return df
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Config B stage 1: Docling figure extraction.")
+    parser.add_argument("--results", default="results/B")
+    parser.add_argument("--config", default="config.yaml")
+    parser.add_argument("--papers", default="1,2,4,6,16,19")
+    args = parser.parse_args()
+    cfg = yaml.safe_load(open(args.config))
+    extract_figures(cfg["data"]["pdf_dir"], args.results, args.papers.split(","))
