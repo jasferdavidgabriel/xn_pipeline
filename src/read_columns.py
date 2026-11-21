@@ -13,11 +13,12 @@ import numpy as np
 import pandas as pd
 import pymupdf
 import yaml
-from PIL import Image
 
 from src.pieces import load_crops
+from PIL import Image, ImageOps
 
-UPSCALE = 3
+UPSCALE = 2           # cells are already rendered at high DPI, so less enlarging is needed
+BOX_DPI = 200         # crop boxes and column positions are in 200 DPI pixels
 
 
 def ink_height_ratio(image, threshold=128, side_trim=0.15):
@@ -29,19 +30,24 @@ def ink_height_ratio(image, threshold=128, side_trim=0.15):
 
 
 def read_columns(results_dir, pdf_dir, paper_id, page, columns, row_status="fragment",
-                 half_height=25, preview=False, use_gpu=True, dpi=200):
-    """columns: {name: [x_from, x_to, allowlist]}. Returns one row per table row."""
+                 half_height=25, preview=False, use_gpu=True, ocr_dpi=400):
+    """columns: {name: [x_from, x_to, allowlist]} in 200 DPI pixels. Returns one row per table row.
+
+    Cells are rendered at ocr_dpi and contrast-stretched, because thin serif text at
+    200 DPI renders as light gray, which OCR misreads.
+    """
     crops = load_crops(results_dir, paper_id, page)
     rows = crops[crops.status == row_status].sort_values("yc")
-    pix = pymupdf.open(Path(pdf_dir) / f"{paper_id}.pdf")[page - 1].get_pixmap(dpi=dpi)
+    pix = pymupdf.open(Path(pdf_dir) / f"{paper_id}.pdf")[page - 1].get_pixmap(dpi=ocr_dpi)
     page_img = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
-
+    s = ocr_dpi / BOX_DPI
+    
     cells = []   # (row crop_id, column name, image)
     for _, r in rows.iterrows():
         for name, (x0, x1, _) in columns.items():
-            box = (int(x0), int(r.yc - half_height), int(x1), int(r.yc + half_height))
-            cells.append((r.crop_id, name, page_img.crop(box)))
-
+            box = (int(x0 * s), int((r.yc - half_height) * s), int(x1 * s), int((r.yc + half_height) * s))
+            cells.append((r.crop_id, name, ImageOps.autocontrast(page_img.crop(box).convert("L"))))
+            
     out_stem = Path(results_dir) / f"table_cells_paper{paper_id}_page{page}"
     if preview:
         n_cols = len(columns)
