@@ -19,6 +19,7 @@ from src.text_tables import assemble_linker_table, assemble_multi_slot, assemble
 from src.validate import validate_predictions
 from src.pieces import linker_table, warhead_table
 from src.image_tables import assemble_image_table
+from src.grid_tables import assemble_grid_table
 
 
 
@@ -63,6 +64,10 @@ def main(config_path, results_dir):
     for job in cfg["tables"].get("image", []):
         assemble_image_table(results, job["paper"], job["page"], job["scaffolds"],
                              job["ring_slot"], job["r_slot"])
+
+    print("\n== 3d. Assemble grid-detected tables")
+    for job in cfg["tables"].get("grid", []):
+        assemble_grid_table(results, job["paper"], job["page"], job["scaffold_crop"])
 
     print("\n== 4. Expand abbreviation labels")
     expand_all(results)
