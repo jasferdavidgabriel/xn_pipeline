@@ -1,0 +1,236 @@
+crop_id,paper_id,expanded_smiles,status,labels
+1_p1_001,1,,no annotations,
+1_p3_001,1,,no annotations,
+1_p3_002,1,,no annotations,
+1_p3_003,1,,no annotations,
+1_p3_004,1,,no annotations,
+1_p4_001,1,,no annotations,
+1_p4_002,1,,no annotations,
+1_p4_003,1,,no annotations,
+1_p6_001,1,,no annotations,
+1_p6_002,1,,no annotations,
+1_p6_003,1,,no annotations,
+1_p8_001,1,,no annotations,
+1_p8_002,1,,no annotations,
+1_p8_003,1,,no annotations,
+1_p8_004,1,,no annotations,
+1_p8_005,1,,no annotations,
+1_p8_006,1,,no annotations,
+1_p8_007,1,,no annotations,
+2_p2_001,2,,no annotations,
+2_p2_002,2,,no annotations,
+2_p2_003,2,,no annotations,
+2_p2_004,2,,no annotations,
+2_p3_001,2,,no annotations,
+2_p3_002,2,,no annotations,
+2_p3_003,2,,unknown label,R[3] -> ?
+2_p3_004,2,,unknown label,R[3] -> ?
+2_p3_005,2,,no annotations,
+2_p4_001,2,,no annotations,
+2_p4_002,2,,no annotations,
+2_p4_003,2,,no annotations,
+2_p4_004,2,,no annotations,
+2_p4_005,2,,no annotations,
+2_p4_006,2,,no annotations,
+2_p4_007,2,,no annotations,
+2_p5_001,2,,unknown label,R[2] -> ?
+2_p5_002,2,*N1CCN(C)CC1,generic_piece,<dum> -> <dum>
+2_p5_003,2,*N1CCN(C)CC1,generic_piece,<dum> -> <dum>
+2_p5_004,2,*N1CCN(C)CC1,generic_piece,<dum> -> <dum>
+2_p5_005,2,*N1CCOCC1,generic_piece,<dum> -> <dum>
+2_p5_006,2,*N1CCNCC1,generic_piece,<dum> -> <dum>
+2_p5_007,2,*N1CCOCC1,generic_piece,<dum> -> <dum>
+2_p5_008,2,*N1CCOCC1,generic_piece,<dum> -> <dum>
+2_p5_009,2,*OC(F)F,generic_piece,<dum> -> <dum>
+2_p5_010,2,*N1CCOCC1,generic_piece,<dum> -> <dum>
+2_p5_011,2,*C(=O)OC,generic_piece,<dum> -> <dum>
+2_p5_012,2,*N1CCOCC1,generic_piece,<dum> -> <dum>
+2_p5_013,2,*N1CCOCC1,generic_piece,<dum> -> <dum>
+2_p5_014,2,*N1CCOCC1,generic_piece,<dum> -> <dum>
+2_p5_015,2,*C(=O)OC,generic_piece,<dum> -> <dum>
+2_p5_016,2,*N1CCOCC1,generic_piece,<dum> -> <dum>
+2_p5_017,2,*N1CCN(C)CC1,generic_piece,<dum> -> <dum>
+2_p5_018,2,*N1CCOCC1,generic_piece,<dum> -> <dum>
+2_p5_019,2,*N1CCOCC1,generic_piece,<dum> -> <dum>
+2_p5_020,2,*N1CCCCC1,generic_piece,<dum> -> <dum>
+2_p5_021,2,*N1CCN(C)CC1,generic_piece,<dum> -> <dum>
+2_p5_022,2,*Cl,generic_piece,<dum> -> <dum>
+2_p5_023,2,*Cl,generic_piece,<dum> -> <dum>
+2_p5_024,2,*Cl,generic_piece,<dum> -> <dum>
+2_p5_025,2,*OC(F)(F)F,generic_piece,<dum> -> <dum>
+2_p5_026,2,*F,generic_piece,<dum> -> <dum>
+2_p5_027,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_028,2,*Cl,generic_piece,<dum> -> <dum>
+2_p5_029,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_030,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_031,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_032,2,*OC,generic_piece,<dum> -> <dum>
+2_p5_033,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_034,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_035,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_036,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_037,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_038,2,*OC,generic_piece,<dum> -> <dum>
+2_p5_039,2,*F,generic_piece,<dum> -> <dum>
+2_p5_040,2,*OC,generic_piece,<dum> -> <dum>
+2_p5_041,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_042,2,*F,generic_piece,<dum> -> <dum>
+2_p5_043,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_044,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_045,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_046,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_047,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_048,2,*CO,generic_piece,<dum> -> <dum>
+2_p5_049,2,*Br,generic_piece,<dum> -> <dum>
+2_p5_050,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_051,2,*C,generic_piece,<dum> -> <dum>
+2_p5_052,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_053,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_054,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_055,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_056,2,*Cl,generic_piece,<dum> -> <dum>
+2_p5_057,2,*C(F)(F)F,generic_piece,<dum> -> <dum>
+2_p5_058,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_059,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_060,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_061,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_062,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_063,2,*[H],generic_piece,<dum> -> <dum>
+2_p5_064,2,*[H],generic_piece,<dum> -> <dum>
+2_p7_001,2,,no annotations,
+4_p1_001,4,,no annotations,
+4_p2_001,4,,unknown label,Y -> ?
+4_p2_002,4,,no annotations,
+4_p2_003,4,,unparseable,
+4_p2_004,4,*NCCOCCOCCNC(=O)CO*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p2_005,4,,no annotations,
+4_p2_006,4,*c1cccc2c1CN(C1CCC(=O)NC1=O)C2=O,generic_piece,<dum> -> <dum>
+4_p2_007,4,*c1ccccc1-c1cn(C2CCC(=O)NC2=O)nn1,generic_piece,<dum> -> <dum>
+4_p2_008,4,*NCCOCCOCCOCCO*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p2_009,4,*c1ccc(C2CCC(=O)NC2=O)cc1,generic_piece,<dum> -> <dum>
+4_p2_010,4,*c1ccc(N2CCC(=O)NC2=O)cc1,generic_piece,<dum> -> <dum>
+4_p2_011,4,*NCCOCCOCCOCCOCCN*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p2_012,4,*NCCCOCCOCCOCCCNC(=O)CCO*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p2_013,4,*NCCCCCN1CCN(CCO*)CC1,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p2_014,4,*CCCCCCOCCCCCN*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p3_001,4,*CNC(=O)c1ccc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)cc1OC,expanded_generic,<dum> -> <dum>
+4_p3_002,4,*O[C@@H]1CCN(C(=O)c2ccc(Nc3ncc4c(n3)-c3ccc(Cl)cc3C(c3c(F)cccc3OC)=NC4)cc2OC)C1,expanded_generic,<dum> -> <dum>
+4_p3_003,4,,unknown label,R' -> ?
+4_p3_004,4,,no annotations,
+4_p3_005,4,,unknown label,R -> ?
+4_p3_006,4,,unknown label,R -> ?
+4_p3_007,4,C[Si](C)(C)CCOCN1C(=O)CCN(c2ccc(O)cc2)C1=O,expanded_complete,SEM -> SEM
+4_p3_008,4,,no annotations,
+4_p3_009,4,,no annotations,
+4_p3_010,4,,unknown label,ABD -> ?
+4_p3_011,4,,unknown label,R -> ?
+4_p3_012,4,COc1ccc(CN2C(=O)CCN(c3ccc(O)cc3)C2=O)c(OC)c1,expanded_complete,DMB -> DMB
+4_p3_013,4,,no annotations,
+4_p3_014,4,,no annotations,
+4_p3_015,4,,no annotations,
+4_p3_016,4,*COc1ccc(-c2ccc(OCc3ccccc3)nc2OCc2ccccc2)cc1,expanded_generic,<dum> -> <dum>; OBn -> OBn; OBn -> OBn
+4_p3_017,4,,no annotations,
+4_p3_018,4,CC(C)(C)OC(=O)N1C(=O)CCC(N2Cc3c(O)cccc3C2=O)C1=O,expanded_complete,Boc -> Boc
+4_p3_019,4,,no annotations,
+4_p3_020,4,Oc1ccc(-c2ccc(OCc3ccccc3)nc2OCc2ccccc2)cc1,expanded_complete,OBn -> OBn; OBn -> OBn
+4_p3_021,4,,no annotations,
+4_p3_022,4,,unknown label,TMS -> ?
+4_p3_023,4,,no annotations,
+4_p3_024,4,,no annotations,
+4_p3_025,4,,no annotations,
+4_p3_026,4,COc1ccc(CN2C(=O)CCNC2=O)c(OC)c1,expanded_complete,DMB -> DMB
+4_p3_027,4,,no annotations,
+4_p3_028,4,*COc1ccccc1C#C,generic_piece,<dum> -> <dum>
+4_p3_029,4,CC(C)(C)OC(=O)N1CCN(CCO)CC1,expanded_complete,Boc -> Boc
+4_p3_030,4,,no annotations,
+4_p3_031,4,*COCCOCCO[C@@H]1CCN(C(=O)OC(C)(C)C)C1,generic_piece,<dum> -> <dum>; Boc -> Boc
+4_p3_032,4,,unknown label,C -> ?
+4_p3_033,4,,unknown label,C -> ?
+4_p3_034,4,,unknown label,C -> ?
+4_p3_035,4,,unknown label,LG -> ?
+4_p3_036,4,,unknown label,C -> ?
+4_p3_037,4,,unknown label,C -> ?
+4_p3_038,4,*CCCCCNC(=O)OC(C)(C)C,generic_piece,<dum> -> <dum>; Boc -> Boc
+4_p3_039,4,*CCCCOCCCCCNC(=O)OC(C)(C)C,generic_piece,<dum> -> <dum>; Boc -> Boc
+4_p3_040,4,*COCCOCCOCCNC(=O)OC(C)(C)C,generic_piece,<dum> -> <dum>; Boc -> Boc
+4_p3_041,4,*CCOCCCOCCCNC(=O)OC(C)(C)C,generic_piece,<dum> -> <dum>; Boc -> Boc
+4_p3_042,4,,unknown label,R -> ?
+4_p4_001,4,,unparseable,
+4_p4_002,4,*NCCCCCN1CCN(CCO*)CC1,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p4_003,4,*NCCOCCOCCNC(=O)CO*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p4_004,4,*NCCOCCOCCOCCO*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p4_005,4,*NCCCOCCCOCCCO*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p4_006,4,*OCCOCCOCCO[C@@H]1CCN(*)C1,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p4_007,4,*NCCCCCOCCCCCO*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p4_008,4,*CCCCCCOCCCCCN*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p6_001,4,*OCCCCCOCCCCCNC(=O)c1ccc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)cc1OC,expanded_generic,<dum> -> <dum>
+4_p6_002,4,,unknown label,R -> ?
+4_p6_003,4,,unknown label,R -> ?
+4_p6_004,4,,unknown label,R -> ?
+4_p6_005,4,,unknown label,R -> ?
+4_p6_006,4,,unknown label,R -> ?
+4_p8_001,4,*NCCCCCN1CCN(CCO*)CC1,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p8_002,4,*NCCCCCN1CCN(CCO*)CC1,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p8_003,4,*NCCCCCOCCCCCO*,generic_piece,<dum> -> <dum>; <dum> -> <dum>
+4_p8_004,4,,unknown label,AD -> ?
+6_p19_001,6,,no annotations,
+16_p2_001,16,,no annotations,
+16_p2_002,16,,no annotations,
+16_p2_003,16,,no annotations,
+16_p6_001,16,,no annotations,
+16_p6_002,16,,no annotations,
+16_p6_003,16,,no annotations,
+16_p6_004,16,,no annotations,
+16_p6_005,16,,no annotations,
+19_p1_001,19,,no annotations,
+19_p3_001,19,,no annotations,
+19_p3_002,19,,unparseable,
+19_p3_003,19,,unknown label,R -> ?
+19_p3_004,19,,unknown label,R -> ?
+19_p4_001,19,,no annotations,
+19_p4_002,19,,no annotations,
+19_p4_003,19,,unknown label,R -> ?
+19_p4_004,19,,no annotations,
+19_p5_001,19,,unknown label,R -> ?
+19_p5_002,19,,unknown label,A -> ?
+19_p6_001,19,,unknown label,R -> ?
+19_p7_001,19,,unknown label,R -> ?
+19_p7_002,19,,unknown label,R -> ?
+19_p7_003,19,,no annotations,
+19_p7_004,19,,no annotations,
+19_p7_005,19,,no annotations,
+19_p7_006,19,,no annotations,
+19_p7_007,19,,no annotations,
+19_p7_008,19,,no annotations,
+19_p7_009,19,,no annotations,
+19_p8_001,19,,unknown label,R[C] -> ?
+19_p9_001,19,,unknown label,R[2] -> ?
+19_p9_002,19,,no annotations,
+19_p9_003,19,,no annotations,
+19_p9_004,19,*c1cnc(SC)nc1C,generic_piece,<dum> -> <dum>
+19_p9_005,19,,no annotations,
+19_p9_006,19,,no annotations,
+19_p9_007,19,,no annotations,
+19_p11_001,19,,no annotations,
+19_p12_001,19,*c1cnc2c(c1)c(C(=O)c1ccc(F)c(NS(=O)(=O)CCC)c1F)cn2C(=O)c1c(Cl)cccc1Cl,expanded_generic,SO2H7 -> SO2C3H7; <dum> -> <dum>
+19_p12_002,19,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2cn(C(=O)c3c(Cl)cccc3Cl)c3ncc(Br)cc23)c1F,expanded_complete,SO2H7 -> SO2C3H7
+19_p12_003,19,,no annotations,
+19_p12_004,19,CCCS(=O)(=O)Nc1c(F)ccc(C(=O)c2cn(C(=O)c3c(Cl)cccc3Cl)c3ncc(B4OC(C)(C)C(C)(C)O4)cc23)c1F,expanded_complete,SO2C3H7 -> SO2C3H7
+19_p12_005,19,,no annotations,
+19_p12_006,19,O=C(c1ccc(F)c([N+](=O)[O-])c1F)c1c[nH]c2ncc(Br)cc12,expanded_complete,NO2 -> NO2
+19_p12_007,19,,unknown label,<dum> -> <dum>; SO2 -> ?
+19_p12_008,19,*c1cnc2[nH]cc(C(=O)c3ccc(F)c(NS(=O)(=O)CCC)c3F)c2c1,expanded_generic,SO2H7 -> SO2C3H7; <dum> -> <dum>
+19_p12_009,19,,no annotations,
+19_p12_010,19,,no annotations,
+19_p12_011,19,,no annotations,
+19_p12_012,19,*c1cnc2[nH]nc(C(=O)c3ccc(F)c(NS(=O)(=O)CCC)c3F)c2c1,expanded_generic,<dum> -> <dum>
+19_p12_013,19,,no annotations,
+19_p12_014,19,,no annotations,
+19_p12_015,19,,no annotations,
+19_p12_016,19,,no annotations,
+19_p12_017,19,,no annotations,
+19_p12_018,19,O=C(O)c1ccc(F)c([N+](=O)[O-])c1F,expanded_complete,NO2 -> NO2
+19_p12_019,19,,no annotations,
+19_p12_020,19,,no annotations,
+19_p12_021,19,O=C(Cl)c1ccc(F)c([N+](=O)[O-])c1F,expanded_complete,NO2 -> NO2
+19_p12_022,19,,no annotations,

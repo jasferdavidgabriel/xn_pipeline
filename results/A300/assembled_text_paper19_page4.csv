@@ -1,0 +1,6 @@
+paper_id,page,compound,r_text,assembled_smiles,scaffold_crop,status
+19,4,2,-N=|-CH=|-H,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2n[nH]c3ncc(-c4ccc(Cl)cc4)cc23)c1F,19_p4_003,assembled
+19,4,3,-CH=|-N=|-H,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(-c4ccc(Cl)cc4)nc23)c1F,19_p4_003,assembled
+19,4,4,-CH=|-C(Cl)=|-H,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(-c4ccc(Cl)cc4)c(Cl)c23)c1F,19_p4_003,assembled
+19,4,5,-CH=|-C(CN)=|-H,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(-c4ccc(Cl)cc4)c(C#N)c23)c1F,19_p4_003,assembled
+19,4,6,-CH=|-CH=|-OCH3,CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3nc(OC)c(-c4ccc(Cl)cc4)cc23)c1F,19_p4_003,assembled
