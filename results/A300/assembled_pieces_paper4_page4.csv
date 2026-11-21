@@ -1,0 +1,8 @@
+paper_id,page,compound,assembled_smiles,pieces,status
+4,4,,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCCCN1CCN(CCOc2cccc3c2C(=O)N(C2CCC(=O)NC2=O)C3=O)CC1,4_p4_002,assembled
+4,4,,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCOCCOCCNC(=O)COc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,4_p4_003,assembled
+4,4,,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCOCCOCCOCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,4_p4_004,assembled
+4,4,,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCOCCCOCCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,4_p4_005,assembled
+4,4,,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)N1CC[C@@H](OCCOCCOCCOc2cccc3c2C(=O)N(C2CCC(=O)NC2=O)C3=O)C1,4_p4_006,assembled
+4,4,,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCCCOCCCCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,4_p4_007,assembled
+4,4,,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCCCOCCCCCCc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,4_p4_008,assembled

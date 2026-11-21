@@ -1,0 +1,11 @@
+paper_id,page,compound,assembled_smiles,pieces
+4,6,52,COc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,4_p6_004+OMe
+4,6,44,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCCCOCCCCCOc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O,4_p6_004+4_p6_001
+4,6,53,COc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O,4_p6_002+OMe
+4,6,47,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCCCOCCCCCOc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O,4_p6_002+4_p6_001
+4,6,54,COc1ccccc1-c1cn(C2CCC(=O)NC2=O)nn1,4_p6_003+OMe
+4,6,48,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCCCOCCCCCOc1ccccc1-c1cn(C2CCC(=O)NC2=O)nn1,4_p6_003+4_p6_001
+4,6,55,COc1ccc(C2CCC(=O)NC2=O)cc1,4_p6_005+OMe
+4,6,49,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCCCOCCCCCOc1ccc(C2CCC(=O)NC2=O)cc1,4_p6_005+4_p6_001
+4,6,56,COc1ccc(N2CCC(=O)NC2=O)cc1,4_p6_006+OMe
+4,6,CCT400028,COc1cc(Nc2ncc3c(n2)-c2ccc(Cl)cc2C(c2c(F)cccc2OC)=NC3)ccc1C(=O)NCCCCCOCCCCCOc1ccc(N2CCC(=O)NC2=O)cc1,4_p6_006+4_p6_001

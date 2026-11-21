@@ -10,12 +10,15 @@ import argparse
 from pathlib import Path
 
 import yaml
+import pandas as pd
 
 from src.assemble import assemble_table
 from src.expand_abbreviations import expand_all
 from src.score import score
 from src.text_tables import assemble_linker_table, assemble_multi_slot, assemble_text_table
 from src.validate import validate_predictions
+from src.pieces import linker_table, warhead_table
+
 
 
 def main(config_path, results_dir):
@@ -43,6 +46,18 @@ def main(config_path, results_dir):
         else:
             assemble_text_table(*args)
 
+    print("\n== 3b. Assemble modular pieces (warheads, linkers, ligands)")
+    smiles_of = lambda crop: pd.read_csv(results / "validated_predictions.csv").set_index("crop_id").canonical_smiles[crop]
+    for job in cfg["tables"].get("pieces_warhead", []):
+        t = warhead_table(results, pdf_dir, job["paper"], job["page"], job["piece_crop"], job["name_pattern"])
+        t.to_csv(results / f"assembled_pieces_paper{job['paper']}_page{job['page']}.csv", index=False)
+        print(f"Warhead table page {job['page']}: {len(t)} compounds")
+    for job in cfg["tables"].get("pieces_linker", []):
+        t = linker_table(results, pdf_dir, job["paper"], job["page"], smiles_of(job["warhead_crop"]),
+                         smiles_of(job["ligand_piece_crop"]), job["name_pattern"])
+        t.to_csv(results / f"assembled_pieces_paper{job['paper']}_page{job['page']}.csv", index=False)
+        print(f"Linker table page {job['page']}: {len(t)} compounds")
+
     print("\n== 4. Expand abbreviation labels")
     expand_all(results)
 
@@ -53,6 +68,6 @@ def main(config_path, results_dir):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Rebuild all pipeline results.")
     parser.add_argument("--config", default="config.yaml")
-    parser.add_argument("--results", default="results/A")
+    parser.add_argument("--results", default="results/A300")
     args = parser.parse_args()
     main(args.config, args.results)
