@@ -29,3 +29,6 @@ tables:
     - {paper: "4", page: 6, piece_crop: 4_p6_001, name_pattern: '^(5[2-6]|4[4-9]|CCT400028)$'}
   pieces_linker:    # warhead + two-ended linker + ligand piece (src/pieces.py)
     - {paper: "4", page: 4, warhead_crop: 4_p6_004, ligand_piece_crop: 4_p6_001, name_pattern: '^(JB\d+|4[2-6]|51)$'}
+
+image:            # image tables read by targeted OCR (src/read_columns.py on Colab, then src/image_tables.py)
+    - {paper: "19", page: 7, scaffolds: {A: 19_p7_002, B: 19_p7_001}, ring_slot: 1, r_slot: 2}

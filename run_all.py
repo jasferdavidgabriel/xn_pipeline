@@ -18,6 +18,7 @@ from src.score import score
 from src.text_tables import assemble_linker_table, assemble_multi_slot, assemble_text_table
 from src.validate import validate_predictions
 from src.pieces import linker_table, warhead_table
+from src.image_tables import assemble_image_table
 
 
 
@@ -57,6 +58,11 @@ def main(config_path, results_dir):
                          smiles_of(job["ligand_piece_crop"]), job["name_pattern"])
         t.to_csv(results / f"assembled_pieces_paper{job['paper']}_page{job['page']}.csv", index=False)
         print(f"Linker table page {job['page']}: {len(t)} compounds")
+
+    print("\n== 3c. Assemble OCR-read image tables")
+    for job in cfg["tables"].get("image", []):
+        assemble_image_table(results, job["paper"], job["page"], job["scaffolds"],
+                             job["ring_slot"], job["r_slot"])
 
     print("\n== 4. Expand abbreviation labels")
     expand_all(results)
