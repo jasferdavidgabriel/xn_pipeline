@@ -36,6 +36,47 @@ Metric: exact structure recovery against 220 unique reference structures (duplic
 
 Precision rose as recall climbed: each stage added real molecules, not noise.
 
+### General stages only (ablation)
+
+Many stages are configured per paper in `config.yaml` (which crop is a table's scaffold, which slot is Ra). Those settings were developed on these six papers with the answer key visible, so the full result above is a development set score. To estimate performance on an unseen paper, the pipeline was rerun with only the stages that need no per paper settings: recognition, validation, and abbreviation expansion (`config_general.yaml`).
+
+| System | Recall | Precision |
+|---|---|---|
+| ChatGPT-5.5 High (course benchmark) | 14.4% | 0.6% |
+| Claude Code (course benchmark) | 6.3% | 25.9% |
+| **This pipeline, general stages only** | **30.9%** | **78.8%** |
+| This pipeline, configured per paper | 88.6% | 90.6% |
+
+Agent figures are totals across the six papers (32 of 222 and 14 of 222 correct), computed from the course benchmark's table; its Claude Code precision and recall columns appear to be swapped, and are recomputed here from its counts.
+
+Two cautions: the general stages were also refined on these papers (the abbreviation vocabulary, the 300 DPI choice, fuzzy matching thresholds), so 30.9% is a close estimate rather than a true held out score; and the benchmark's other 14 papers are deliberately undisclosed by its authors, so a held out test needs new papers with a new answer key.
+
+The 57.7 point gap between the two pipeline rows is the value of per paper document understanding, and the target for automating it: about 11 configuration entries unlock 127 molecules.
+
+### Front end comparison: Config A vs Config B
+
+The Phase 2 plan compared two ways of finding molecule drawings:
+
+- **Config A:** MolDetv2 on whole pages (the Phase 1 baseline).
+- **Config B:** Docling first extracts figures and tables, using the course benchmark's tuned settings (Heron layout model, page images at scale 3.0, picture threshold lowered from 0.5 to 0.4, images under 5 KB dropped); then MolDetv2 runs inside each image with the same settings as Config A.
+
+Both were scored with the general stages only, so the comparison isolates the front end.
+
+| | Config A | Config B |
+|---|---|---|
+| Images searched | 104 full pages | 119 figures and tables |
+| Crops detected | 235 | 268 |
+| Config A crops also found by B | | 230 of 235 (98%) |
+| Crops found only by this front end | 5 | 29 |
+| **Recall (general stages)** | **30.9%** | **30.9%** |
+| Precision (general stages) | 78.8% | 76.0% |
+
+Findings:
+
+1. **For complete molecules the front end barely matters.** Recall is identical, which supports the conclusion that once a proper molecule detector is in place, segmentation is no longer the bottleneck.
+2. **Config B finds small table cells that whole page detection misses.** Of the 21 paper 2 table cells that MolDetv2 missed on full pages (recovered in Config A by the separate `fill_cells.py` step), Config B found 20; the remaining cell is a dash with no molecule. Handing the detector each table as its own enlarged image removes a per paper recovery step.
+3. **Recognition depends on crop framing.** Two molecules swapped: AST487 (paper 1) was read correctly from Config A's crop but lost a carbon from Config B's, the same Docling cropping failure the course benchmark reported; B9 (paper 19) was misread from Config A's crop (propyl as ethyl) but read correctly from Config B's. The same drawing, framed differently, can flip between right and wrong.
+
 ### Key findings
 
 1. **Recognition is not the main bottleneck.** When recognition sees a complete molecule, it is right about 73% of the time, matching its clean-image benchmark (72%). Most end-to-end loss came from molecules defined indirectly: scaffold + substituent table, separately drawn pieces, or placeholders in synthesis schemes.
@@ -45,6 +86,7 @@ Precision rose as recall climbed: each stage added real molecules, not noise.
 5. **A positional descriptor is meaningless without its numbering convention.** Table 11's "2,4-diF" and "2,6-diF" number the ring from the sulfonamide side (as in vemurafenib's IUPAC name). Numbering from the carbonyl swapped every pair of compounds; the answer key exposed this immediately.
 6. **Color carries information that recognizers discard.** In paper 4 Scheme 1, a blue letter C is a placeholder for a linker, not a carbon atom. Detecting blue pixels identified placeholders that MolGlyph had read as ordinary wildcards.
 7. **Resolution is not the main lever for recognition errors.** A controlled experiment (same crop boxes and model, 200 vs 300 DPI) gained 1 molecule and lost none, but did not fix miscounted chains or misplaced groups. 300 DPI is the default because it was strictly better on exact match.
+8. **Most remaining misses are not vision errors.** An automatic error analysis (`src/error_analysis.py`) of the 25 remaining misses found about 14 caused by notation the pipeline does not yet handle, 2 by representation (a salt, an unspecified double bond), and only about 6 genuine recognition errors, roughly 3% of all molecules.
 
 ## Quick start
 
@@ -55,7 +97,7 @@ pip install -r requirements.txt
 python run_all.py
 ```
 
-`run_all.py` rebuilds every result from the committed inputs on a laptop CPU, in about a minute. Rebuilding is deterministic: the output files are byte for byte identical to the committed ones. Results go to `results/A300/` by default.
+`run_all.py` rebuilds every result from the committed inputs on a laptop CPU, in about a minute. Rebuilding is deterministic: the output files are byte for byte identical to the committed ones. Results go to `results/A300/` by default. To run the general stages only (no per paper settings): `python run_all.py --config config_general.yaml --results results/G`.
 
 **Data:** place the PDFs in `data/pdfs/` (named `<paperID>.pdf`) and the answer key at `data/ground_truth.csv`. Both are excluded from Git.
 
@@ -101,6 +143,10 @@ PDF pages
 | Scheme labels | `src/scheme_labels.py` | Assembles compounds defined by labels like "19 R = Br; R1 = H" |
 | Abbreviations | `src/expand_abbreviations.py` | Expands labels MolGlyph left as wildcards (e.g. SO2C3H7), using its own annotations |
 | Scoring | `src/score.py`, `src/evaluate.py` | Final predictions, per paper and per molecule results |
+| Error analysis | `src/error_analysis.py` | Classifies each missed molecule by how its closest prediction differs |
+| Config B figures | `src/docling_figures.py` | Docling figure and table extraction with the benchmark's tuned settings (Colab) |
+| Config B detection | `src/detect_figures.py` | MolDetv2 inside each figure, boxes mapped back to page positions (Colab) |
+| Front end comparison | `src/compare_frontends.py` | Matches crops between two front ends by position; compares molecules found |
 | Review | `src/review_crops.py` | Visual review sheets of crops by paper and status |
 | All stages | `run_all.py` | Rebuilds every result in order |
 
@@ -142,10 +188,13 @@ Most remaining misses are recognition errors, which no assembly step can repair.
 
 ```
 config.yaml          data paths, BioMiner paths, table and scheme settings
+config_general.yaml  the same with no per paper settings (general stages only)
 run_all.py           rebuild all results
 src/                 pipeline stages
 results/A/           200 DPI run (Phase 1 baseline crops + early Phase 2 stages)
 results/A300/        300 DPI run (current default, all stages)
+results/G/           Config A, general stages only
+results/B/           Config B (Docling + MolDetv2), general stages only
 data/                PDFs and answer key (not in Git)
 colab_setup.md       GPU stages on Colab
 CONTRIBUTIONS.md     who did what
