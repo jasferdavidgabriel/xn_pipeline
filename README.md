@@ -60,22 +60,23 @@ The Phase 2 plan compared two ways of finding molecule drawings:
 - **Config A:** MolDetv2 on whole pages (the Phase 1 baseline).
 - **Config B:** Docling first extracts figures and tables, using the course benchmark's tuned settings (Heron layout model, page images at scale 3.0, picture threshold lowered from 0.5 to 0.4, images under 5 KB dropped); then MolDetv2 runs inside each image with the same settings as Config A.
 
-Both were scored with the general stages only, so the comparison isolates the front end.
+Both were scored with the general stages only, so the comparison isolates the front end. Config B was run in two variants. In the first, MolDetv2 ran directly on Docling's tightly cropped images, where drawings touch the image edges; the detector, trained on whole pages, then sometimes clipped its boxes (paper 2's scaffold lost its R labels and was read as a complete molecule with methyl groups). The second variant pads each image with white space before detection, and uses the whole image as the crop when a single detection covers at least 60% of it.
 
-| | Config A | Config B |
-|---|---|---|
-| Images searched | 104 full pages | 119 figures and tables |
-| Crops detected | 235 | 268 |
-| Config A crops also found by B | | 230 of 235 (98%) |
-| Crops found only by this front end | 5 | 29 |
-| **Recall (general stages)** | **30.9%** | **30.9%** |
-| Precision (general stages) | 78.8% | 76.0% |
+| | Config A | Config B, tight | Config B, padded |
+|---|---|---|---|
+| Images searched | 104 full pages | 119 figures and tables | 119 figures and tables |
+| Crops detected | 235 | 268 | 266 |
+| Config A crops also found by B | | 230 of 235 | 232 of 235 |
+| **Recall (general stages)** | **30.9%** | **30.9%** | **30.0%** |
+| Precision (general stages) | 78.8% | 76.0% | 72.3% |
+| Paper 2 cells missed on full pages, found here | | 20 of 21 | 19 of 21 |
+| **Paper 2 table assembled with no recovery step** | No (needs `fill_cells.py`) | No (scaffold clipped) | **Yes, 21 of 21 correct** |
 
 Findings:
 
-1. **For complete molecules the front end barely matters.** Recall is identical, which supports the conclusion that once a proper molecule detector is in place, segmentation is no longer the bottleneck.
-2. **Config B finds small table cells that whole page detection misses.** Of the 21 paper 2 table cells that MolDetv2 missed on full pages (recovered in Config A by the separate `fill_cells.py` step), Config B found 20; the remaining cell is a dash with no molecule. Handing the detector each table as its own enlarged image removes a per paper recovery step.
-3. **Recognition depends on crop framing.** Two molecules swapped: AST487 (paper 1) was read correctly from Config A's crop but lost a carbon from Config B's, the same Docling cropping failure the course benchmark reported; B9 (paper 19) was misread from Config A's crop (propyl as ethyl) but read correctly from Config B's. The same drawing, framed differently, can flip between right and wrong.
+1. **For complete molecules the front end barely matters.** Recall stays within one or two molecules across all three runs, which supports the conclusion that once a proper molecule detector is in place, segmentation is no longer the bottleneck.
+2. **Config B removes a per paper recovery step.** On full pages, MolDetv2 missed 21 of paper 2's table cells, which Config A recovered with the separate `fill_cells.py` step and an extra recognition run. Handing the detector each table as its own image finds the cells directly, and with padding, paper 2's whole R-group table assembles correctly (21 of 21) from Config B's crops alone.
+3. **Recognition depends on crop framing.** Changing only how drawings are framed changes which molecules are read correctly. AST487 (paper 1) was lost in both Config B variants, the same Docling cropping failure the course benchmark reported. B9 (paper 19), misread from Config A's crop, was read correctly from the tight Config B crop but not the padded one, and JB170 (paper 4) was lost only with padding. There is no single best cropping rule; comparing readings across framings could flag recognition errors.
 
 ### Key findings
 
@@ -194,7 +195,8 @@ src/                 pipeline stages
 results/A/           200 DPI run (Phase 1 baseline crops + early Phase 2 stages)
 results/A300/        300 DPI run (current default, all stages)
 results/G/           Config A, general stages only
-results/B/           Config B (Docling + MolDetv2), general stages only
+results/B/           Config B (Docling + padded MolDetv2), general stages only
+results/B_tight/     Config B without padding (first variant), general stages only
 data/                PDFs and answer key (not in Git)
 colab_setup.md       GPU stages on Colab
 CONTRIBUTIONS.md     who did what
