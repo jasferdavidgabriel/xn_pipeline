@@ -199,9 +199,8 @@ results/B/           Config B (Docling + padded MolDetv2), general stages only
 results/B_tight/     Config B without padding (first variant), general stages only
 data/                PDFs and answer key (not in Git)
 colab_setup.md       GPU stages on Colab
-CONTRIBUTIONS.md     who did what
 ```
 
 ## Credits
 
-See [CONTRIBUTIONS.md](CONTRIBUTIONS.md). Models: MolDetv2 (UniParser) and MolGlyph (BioMiner, Yan et al., 2025); chemistry with RDKit; OCR with EasyOCR.
+Models: MolDetv2 (UniParser) and MolGlyph (BioMiner, Yan et al., 2025); chemistry with RDKit; OCR with EasyOCR.
