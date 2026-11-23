@@ -104,6 +104,23 @@ python run_all.py
 
 **GPU stages** run on Google Colab, and their outputs are committed, so `run_all.py` does not need a GPU: MolGlyph recognition (`src/recognize.py`) and the OCR tools (`src/read_table_text.py`, `src/read_columns.py`, `src/grid_ocr.py`, `src/page_ocr.py`). See [colab_setup.md](colab_setup.md).
 
+## Sample test case
+
+One molecule from paper 1, page 3, followed through the pipeline (`results/A300/`).
+
+**Input:** the detected crop (shown at 200 DPI; recognition used the 300 DPI rendering of the same box)
+
+![Crop 1_p3_001](docs/sample_crop_1_p3_001.png)
+
+**Detection** (`crops.csv`): found on page 3 with confidence 0.955.
+
+**Recognition** (`raw_predictions.csv`), 1.2 seconds:
+`COc1cc2c(Oc3ccc(NC(=O)C4(C(=O)Nc5ccc(F)cc5)CC4)cc3F)ccnc2cc1OCCCN1CCOCC1`
+
+**Validation** (`validated_predictions.csv`): RDKit parses it as a complete molecule, status `valid`.
+
+**Scoring** (`final_per_molecule.csv`): matched to **Foretinib** in the answer key. Exact match: True, Tanimoto: 1.0.
+
 ## Pipeline stages
 
 ```
@@ -122,6 +139,44 @@ PDF pages
                  └─ annotated wildcards ─> abbreviation expansion ──────────────────┤
                                                                                     └─> Scoring
 ```
+
+## Inputs and outputs
+
+Stages communicate through CSV files keyed by `crop_id`, so each stage can be run and checked on its own.
+
+| Stage | Input | Output | Key columns |
+|---|---|---|---|
+| Detection | PDF page images | `crops.csv` + crop images | `crop_id`, `paper_id`, `page`, box (`x1`, `y1`, `x2`, `y2`), `confidence`, `crop_path` |
+| Recognition | `crops.csv` + crop images | `raw_predictions.csv` | `crop_id`, `raw_smiles`, `raw_output`, `inference_time`, `error` |
+| Validation | `raw_predictions.csv` | `validated_predictions.csv` | `crop_id`, `canonical_smiles`, `status` (valid, invalid, scaffold, fragment, linker) |
+| Assembly stages | `validated_predictions.csv` + `config.yaml` | `assembled_*.csv` (one per table or scheme) | built molecules per table or scheme |
+| Abbreviation expansion | validated and assembled predictions | `expanded_predictions.csv` | expanded SMILES |
+| Scoring | all predictions + `data/ground_truth.csv` | `final_per_molecule.csv`, `final_per_paper.csv` | `molecule_name`, `true_canonical`, `best_prediction`, `exact_match`, `best_tanimoto` |
+| Error analysis | scoring outputs | `error_analysis.csv` | cause of each miss |
+
+## Technical methods
+
+### Pretrained models
+
+| Model | Used for | Why it was chosen |
+|---|---|---|
+| MolDetv2 (UniParser, YOLO11) | Finding molecule drawings on pages and in figures | Phase 1 baseline detector; version 2 reduces false positives on formulas and diagrams |
+| MolGlyph (BioMiner, Yan et al., 2025) | Converting molecule images to SMILES | 72% exact match on clean BioVista images in our Phase 1 benchmark |
+| Docling (Heron layout model) | Extracting figures and tables (Config B) | Used with the course benchmark's tuned settings |
+| EasyOCR | Reading table text, labels, and scheme text | General purpose OCR that runs on the Colab GPU |
+
+All models are used with their released pretrained weights. No fine tuning was done: our 220 molecules are also the answer key, so training on them would leave no fair data to score against.
+
+### Data augmentation
+
+None. Augmentation applies when training a model, and this pipeline trains none. Mirror flipping would also be unsafe for this task, because flipping a drawing with wedge bonds depicts the opposite enantiomer.
+
+### Preprocessing
+
+1. **Page rendering:** PDF pages rendered to images at 300 DPI (200 DPI in the baseline; 300 chosen after a controlled experiment).
+2. **Config B framing:** Docling page images at scale 3.0, picture threshold 0.4, images under 5 KB dropped, white padding added before detection, and the whole image used as the crop when one detection covers at least 60% of it.
+3. **Table grids:** ruled lines detected from the image to find rows, columns, and merged cells.
+4. **Scoring:** RDKit canonical SMILES; Tanimoto with Morgan fingerprints (radius 2, 2048 bits, chirality on).
 
 | Stage | File | What it does |
 |---|---|---|
@@ -183,7 +238,7 @@ Every assembly stage was checked against the answer key in at least one of these
 | 16 | 3 | Recognition errors (e.g. an extra methyl) |
 | 6 | 1 | A misplaced methyl (NR-7h) |
 
-Most remaining misses are recognition errors, which no assembly step can repair.
+Only about 6 of these are genuine recognition errors; the rest come from notation the pipeline does not yet handle (see Key finding 8).
 
 ## Repository layout
 
